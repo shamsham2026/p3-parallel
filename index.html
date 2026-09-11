@@ -50,6 +50,38 @@
       gap: clamp(16px, 3vw, 24px);
     }
 
+    .school-top-banner {
+      background: linear-gradient(135deg, #fff0f3, #ffe4e8);
+      border: 2.5px solid var(--accent-color);
+      border-radius: 16px;
+      padding: 14px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(255, 107, 139, 0.12);
+    }
+
+    .school-top-title {
+      font-size: clamp(18px, 4vw, 22px);
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    .school-top-author {
+      display: inline-block;
+      background: #ffffff;
+      border: 1.5px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      align-self: center;
+    }
+
     .role-header-bar {
       display: flex;
       justify-content: space-between;
@@ -347,7 +379,7 @@
       align-items: center;
     }
 
-    #photo-annotate-canvas, #preview-annotate-canvas {
+    #photo-annotate-canvas, #ai-photo-annotate-canvas {
       width: 100%;
       height: 100%;
       display: block;
@@ -693,6 +725,13 @@
 <body>
 
 <div class="container">
+  <div class="school-top-banner">
+    <h1 class="school-top-title">🏫 滬江小學 數學科：小三 平行線 互動教學平台</h1>
+    <div>
+      <span class="school-top-author">✨ 設計及製作：沈美玉主任</span>
+    </div>
+  </div>
+
   <header class="role-header-bar">
     <div class="role-badge" id="role-display">
       <span>🎓</span>
@@ -983,7 +1022,7 @@
           </div>
         </div>
         <div class="photo-annotate-box">
-          <canvas id="photo-annotate-canvas"></canvas>
+          <canvas id="ai-photo-annotate-canvas"></canvas>
         </div>
         <div>
           <button type="button" class="btn-secondary" onclick="clearUserAnnotation()">🔄 重畫線條</button>
@@ -994,7 +1033,7 @@
         <span>🔍</span> 請 AI 小博士分析線段並解釋
       </button>
 
-      <div class="feedback-box feedback-correct" id="ai-explanation-box" style="display:none;">
+      <div class="feedback-box" id="ai-explanation-box" style="display:none;">
         <div style="font-weight: bold; color: var(--primary-dark); margin-bottom: 8px;">🐱 AI 小博士分析與實測：</div>
         <div id="ai-explanation-text"></div>
       </div>
@@ -1232,13 +1271,10 @@
   let activeBroadcastStage = 'preview-tab';
   let toastTimer = null;
 
-  /*
-   * 8 大題型動態出題引擎
-   */
+  /* 8 大題型動態出題引擎 */
   const questionGenerators = [
-    // 題型 1：方格紙連線題
     function generateGridDotQuestion() {
-      const stepX = 2 + Math.floor(Math.random() * 2); // 2 或 3
+      const stepX = 2 + Math.floor(Math.random() * 2);
       const stepY = 1;
       const bx1 = 125, by1 = 100;
       const bx2 = bx1 + stepX * 25, by2 = by1 - stepY * 25;
@@ -1279,20 +1315,18 @@
         explanation: `💡 <br>在方格網上，平行斜線的關鍵是「傾斜走向完全相同」！原黑線段向右走 ${stepX} 格、向上走 ${stepY} 格；把點 O 和點 N 連起來，走向同樣是向右 ${stepX * 2} 格、向上 ${stepY * 2} 格（比例一致），兩條線無論延長多少都不會相交，且距離處處相等！`
       };
     },
-
-    // 題型 2：英文字母辨析題
     function generateLetterQuestion() {
       const parallelLetters = [
-        { char: 'M', desc: '最左與最右兩條直立筆畫都是垂直豎線，方向一致且距離相等' },
-        { char: 'E', desc: '上、中、下三條水平橫線向左右延伸，距離處處相等' },
-        { char: 'H', desc: '左右兩條豎立直線互相平行，永不相交' },
-        { char: 'Z', desc: '頂部與底部兩條水平橫線方向相同，彼此平行' }
+        { char: 'M', desc: '' },
+        { char: 'E', desc: '' },
+        { char: 'H', desc: '' },
+        { char: 'Z', desc: '' }
       ];
       const nonParallelLetters = [
-        { char: 'A', desc: '左右兩條側邊斜線在頂端相交成尖角，不是平行線' },
-        { char: 'S', desc: '筆畫連續彎曲轉折，沒有互相平行的直線筆畫' },
-        { char: 'W', desc: '傾斜筆畫互相交錯形成尖角，不是平行線' },
-        { char: 'V', desc: '兩條斜線在底部尖端相交，不是平行線' }
+        { char: 'A', desc: '' },
+        { char: 'S', desc: '' },
+        { char: 'W', desc: '' },
+        { char: 'V', desc: '' }
       ];
 
       const target = parallelLetters[Math.floor(Math.random() * parallelLetters.length)];
@@ -1317,8 +1351,6 @@
         explanation: `💡 <br>• 正確答案是<strong>字母 ${target.char}</strong>！${target.desc}，兩線之間的垂直距離處處相等，無論延長多少都不會相交，是一組互相平行的線段。<br>• 其餘字母的筆畫在頂點相交或方向不同，相交的線不是平行線！`
       };
     },
-
-    // 題型 3：交錯虛線找平行線
     function generateDashedLinesQuestion() {
       const dy = 55 + Math.floor(Math.random() * 25);
       const y1 = 95;
@@ -1350,8 +1382,6 @@
         explanation: '💡 <br>• <strong>線段 A 與 線段 B：</strong> 兩條虛線沿著相同傾斜角度筆直延伸，兩線間的垂直距離處處相等，無論延長多少都不會相交，因此是一組互相平行的直線！'
       };
     },
-
-    // 題型 4：長短線段判斷題
     function generateLengthDiffQuestion() {
       const lenShort = 8 + Math.floor(Math.random() * 4);
       const lenLong = 18 + Math.floor(Math.random() * 6);
@@ -1364,8 +1394,8 @@
             <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
             <line x1="95" y1="30" x2="195" y2="30" stroke="#16a34a" stroke-width="4.5" stroke-linecap="round"/>
             <line x1="45" y1="70" x2="255" y2="70" stroke="#16a34a" stroke-width="4.5" stroke-linecap="round"/>
-            <text x="145" y="20" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">長度較短 (${lenShort} cm)</text>
-            <text x="150" y="90" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">長度較長 (${lenLong} cm)</text>
+            <text x="145" y="20" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle"> (${lenShort} cm)</text>
+            <text x="150" y="90" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle"> (${lenLong} cm)</text>
             <line x1="145" y1="30" x2="145" y2="70" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
           </svg>
         `,
@@ -1376,8 +1406,6 @@
         explanation: '💡 <br>★ <strong>牢記定義：</strong>「平行線無論延長多少都不會相交，兩條平行線的距離處處相等」。<br>平行線與線段長短完全無關！即使一長一短，只要它們向兩端無限延長時永遠不會相碰、兩線間距處處相等，就是標準的平行線！'
       };
     },
-
-    // 題型 5：同一直線上的垂直線段
     function generatePerpendicularParallelQuestion() {
       return {
         id: 'perp_' + Math.random(),
@@ -1406,8 +1434,6 @@
         explanation: '💡 <br>同時垂直於同一條直線（直線 a）的所有直線都互相平行。線段 c、d、e 走向完全一致，彼此之間的距離處處相等，無論向上向下延長多少都不會相交，因此是一組互相平行的線！'
       };
     },
-
-    // 題型 6：陷阱題
     function generateWaveTrapQuestion() {
       const spacing = 2 + Math.floor(Math.random() * 2);
       return {
@@ -1430,8 +1456,6 @@
         explanation: '💡 <br>這是最容易失分的陷阱題！平行線的定義是「同一平面內的兩條<strong>直線</strong>」。圖中的線條是彎曲的曲線，雖然處處間距相同，但它<strong>不是直線</strong>，因此在數學上絕對不能稱作平行線！'
       };
     },
-
-    // 題型 7：等腰梯形對邊平行組數
     function generateTrapezoidPairsQuestion() {
       return {
         id: 'shape_trap_' + Math.random(),
@@ -1454,8 +1478,6 @@
         explanation: '💡 <br>梯形的定義是「只有一組對邊平行的四邊形」。<br>• 上底與下底向左右延長永不相交，距離處處相等，是<strong>唯一的一組平行線</strong>！<br>• 左右兩條腰向上方延長時必定會相交成尖角，所以左右兩邊不是平行線。'
       };
     },
-
-    // 題型 8：實測數據判斷題
     function generateMeasureQuestion() {
       const isParallel = Math.random() > 0.5;
       const baseDist = 5.0;
@@ -1499,7 +1521,6 @@
   let currentActiveQuizSet = [];
   let userAnswersState = {};
 
-  /* 隨機生成題目 */
   function regenerateExitQuiz() {
     const shuffled = [...questionGenerators].sort(() => 0.5 - Math.random());
     const selectedFns = shuffled.slice(0, 5);
@@ -1690,6 +1711,8 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     regenerateExitQuiz();
+    initPreviewCanvas();
+    initAiAnnotateCanvas();
   });
 
   function showToast(message) {
@@ -1796,7 +1819,7 @@
       'preview-tab': '【預習. 課前自學檢視】',
       'act1-ai-tab': '【任務一. 課室實測與 AI】',
       'act2-draw-tab': '【任務二. 尺規模擬器】',
-      'act3-share-tab': '【任務三. 街道圖成果牆】',
+      'act3-share-tab': '【任務三. 成果牆】',
       'act4-summary-tab': '【任務四. 通關測試】'
     };
     document.getElementById('sync-status-msg').innerText = `教師模式：全班同步進入 ${stageNames[tabId]}`;
@@ -1923,37 +1946,16 @@
     };
   }
 
-  function calculateSnappedCoords(x1, y1, x2, y2) {
-    const dx = x2 - x1;
-    const dy = y2 - y1;
-    const dist = Math.hypot(dx, dy);
-    if (dist < 10) return { x: x2, y: y2 };
-
-    const angleDeg = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
-    // 接近垂直（與垂直線夾角小於 12 度），自動鎖定為正垂直線
-    if (Math.abs(angleDeg - 90) <= 12) {
-      return { x: x1, y: y2 };
-    }
-    // 接近水平（與水平線夾角小於 12 度），自動鎖定為正水平線
-    if (angleDeg <= 12) {
-      return { x: x2, y: y1 };
-    }
-    return { x: x2, y: y2 };
-  }
-
-  function drawGeometricLine(ctx, x1, y1, x2, y2, color, isDashed = false) {
+  function drawGeometricLine(ctx, x1, y1, x2, y2, color) {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = 6;
     ctx.strokeStyle = color;
     ctx.lineCap = 'round';
-    if (isDashed) ctx.setLineDash([8, 6]);
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();
 
-    // 繪製幾何端點圓點
-    ctx.setLineDash([]);
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(x1, y1, 5, 0, Math.PI * 2);
@@ -1962,13 +1964,12 @@
     ctx.restore();
   }
 
-  /* 預習任務 4：照片上載、畫筆標註與提交 */
+  /* 預習任務 4：相片橡皮筋直線標註 */
   let previewCanvas = null;
   let previewCtx = null;
   let isPreviewDrawing = false;
   let previewBgImg = new Image();
   let currentPreviewBrushColor = '#ff1493';
-  let hasDrawnOnPreview = false;
   let previewStartX = 0;
   let previewStartY = 0;
   let previewCurrentX = 0;
@@ -2003,10 +2004,9 @@
             previewLines = [];
             redrawPreviewCanvas();
             document.getElementById('preview-annotate-stage').style.display = 'flex';
-            document.getElementById('preview-upload-prompt').innerText = "✓ 照片已成功載入！請在照片上標示出平行線";
+            document.getElementById('preview-upload-prompt').innerText = "✓ 照片已成功載入！請在照片上拉出平行線";
             document.getElementById('preview-submit-feedback').style.display = 'none';
-            hasDrawnOnPreview = false;
-            showToast('📸 照片載入成功！請在照片上標示平行線！');
+            showToast('📸 照片載入成功！');
           }
         };
         previewBgImg.src = e.target.result;
@@ -2022,21 +2022,19 @@
       previewCtx.drawImage(previewBgImg, 0, 0, previewCanvas.width, previewCanvas.height);
     }
     previewLines.forEach(line => {
-      drawGeometricLine(previewCtx, line.x1, line.y1, line.x2, line.y2, line.color, false);
+      drawGeometricLine(previewCtx, line.x1, line.y1, line.x2, line.y2, line.color);
     });
   }
 
   function clearPreviewAnnotation() {
     previewLines = [];
-    hasDrawnOnPreview = false;
     redrawPreviewCanvas();
-    showToast('🔄 已清除所有線條，請重新拉出直線！');
+    showToast('🔄 已清除所有直線！');
   }
 
   function undoPreviewLine() {
     if (previewLines.length > 0) {
       previewLines.pop();
-      hasDrawnOnPreview = previewLines.length > 0;
       redrawPreviewCanvas();
       showToast('↩️ 已復原上一條直線！');
     }
@@ -2063,19 +2061,28 @@
     if (!isPreviewDrawing || !previewCtx || !previewCanvas) return;
     e.preventDefault();
     const pt = getCanvasCoords(previewCanvas, e);
-    const snapped = calculateSnappedCoords(previewStartX, previewStartY, pt.x, pt.y);
-    previewCurrentX = snapped.x;
-    previewCurrentY = snapped.y;
+    previewCurrentX = pt.x;
+    previewCurrentY = pt.y;
 
     redrawPreviewCanvas();
-    drawGeometricLine(previewCtx, previewStartX, previewStartY, previewCurrentX, previewCurrentY, currentPreviewBrushColor, true);
+    // 預覽橡皮筋直線
+    previewCtx.save();
+    previewCtx.beginPath();
+    previewCtx.lineWidth = 6;
+    previewCtx.strokeStyle = currentPreviewBrushColor;
+    previewCtx.lineCap = 'round';
+    previewCtx.setLineDash([6, 6]);
+    previewCtx.moveTo(previewStartX, previewStartY);
+    previewCtx.lineTo(previewCurrentX, previewCurrentY);
+    previewCtx.stroke();
+    previewCtx.restore();
   }
 
   function stopPreviewDraw(e) {
     if (!isPreviewDrawing) return;
     isPreviewDrawing = false;
     const dist = Math.hypot(previewCurrentX - previewStartX, previewCurrentY - previewStartY);
-    if (dist >= 10) {
+    if (dist >= 15) {
       previewLines.push({
         x1: previewStartX,
         y1: previewStartY,
@@ -2083,7 +2090,6 @@
         y2: previewCurrentY,
         color: currentPreviewBrushColor
       });
-      hasDrawnOnPreview = true;
     }
     redrawPreviewCanvas();
   }
@@ -2091,18 +2097,16 @@
   function submitPreviewTask() {
     const feedback = document.getElementById('preview-submit-feedback');
     const monitorCell = document.getElementById('table-status-upload');
-    
     if (feedback) feedback.style.display = 'block';
-    if (monitorCell) {
-      monitorCell.innerHTML = '<span style="color:#16a34a;">✓ 📷 已標記提交</span>';
-    }
-    showToast('🎉 預習任務 4 提交成功！教師已收到你的成果！');
+    if (monitorCell) monitorCell.innerHTML = '<span style="color:#16a34a;">✓ 📷 已標記提交</span>';
+    showToast('🎉 預習任務 4 提交成功！');
   }
 
-  let annotateCanvas = null;
-  let ctx = null;
+  /* 任務一：AI 實測任務畫布與真實斜率檢驗 */
+  let aiCanvas = null;
+  let aiCtx = null;
   let isAiDrawing = false;
-  let bgImg = new Image();
+  let aiBgImg = new Image();
   let currentAiBrushColor = '#ff1493';
   let aiStartX = 0;
   let aiStartY = 0;
@@ -2110,18 +2114,18 @@
   let aiCurrentY = 0;
   let aiLines = [];
 
-  function initAiCanvas() {
-    annotateCanvas = document.getElementById('photo-annotate-canvas');
-    if (!annotateCanvas) return;
-    ctx = annotateCanvas.getContext('2d');
+  function initAiAnnotateCanvas() {
+    aiCanvas = document.getElementById('ai-photo-annotate-canvas');
+    if (!aiCanvas) return;
+    aiCtx = aiCanvas.getContext('2d');
 
-    annotateCanvas.addEventListener('mousedown', startAiDraw);
-    annotateCanvas.addEventListener('mousemove', drawAiMove);
-    annotateCanvas.addEventListener('mouseup', stopAiDraw);
-    annotateCanvas.addEventListener('mouseleave', stopAiDraw);
-    annotateCanvas.addEventListener('touchstart', startAiDraw, { passive: false });
-    annotateCanvas.addEventListener('touchmove', drawAiMove, { passive: false });
-    annotateCanvas.addEventListener('touchend', stopAiDraw, { passive: false });
+    aiCanvas.addEventListener('mousedown', startAiDraw);
+    aiCanvas.addEventListener('mousemove', drawAiMove);
+    aiCanvas.addEventListener('mouseup', stopAiDraw);
+    aiCanvas.addEventListener('mouseleave', stopAiDraw);
+    aiCanvas.addEventListener('touchstart', startAiDraw, { passive: false });
+    aiCanvas.addEventListener('touchmove', drawAiMove, { passive: false });
+    aiCanvas.addEventListener('touchend', stopAiDraw, { passive: false });
   }
 
   function handleAiImageUpload(event) {
@@ -2129,34 +2133,35 @@
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        bgImg = new Image();
-        bgImg.onload = function () {
-          if (!annotateCanvas) initAiCanvas();
-          if (annotateCanvas) {
-            annotateCanvas.width = 520;
-            annotateCanvas.height = 390;
+        aiBgImg = new Image();
+        aiBgImg.onload = function () {
+          if (!aiCanvas) initAiAnnotateCanvas();
+          if (aiCanvas) {
+            aiCanvas.width = 520;
+            aiCanvas.height = 390;
             aiLines = [];
-            redrawAnnotation();
+            redrawAiCanvas();
             document.getElementById('ai-annotate-stage').style.display = 'flex';
             document.getElementById('btn-run-ai').disabled = false;
-            document.getElementById('ai-upload-prompt').innerText = "✓ 照片已載入，請在畫布上畫出一組平行線";
+            document.getElementById('ai-upload-prompt').innerText = "✓ 照片已載入，請拉出 2 條平行直線";
             document.getElementById('ai-explanation-box').style.display = 'none';
+            showToast('📸 實物照片載入成功！');
           }
         };
-        bgImg.src = e.target.result;
+        aiBgImg.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   }
 
-  function redrawAnnotation() {
-    if (!ctx || !annotateCanvas) return;
-    ctx.clearRect(0, 0, annotateCanvas.width, annotateCanvas.height);
-    if (bgImg.src) {
-      ctx.drawImage(bgImg, 0, 0, annotateCanvas.width, annotateCanvas.height);
+  function redrawAiCanvas() {
+    if (!aiCtx || !aiCanvas) return;
+    aiCtx.clearRect(0, 0, aiCanvas.width, aiCanvas.height);
+    if (aiBgImg.src) {
+      aiCtx.drawImage(aiBgImg, 0, 0, aiCanvas.width, aiCanvas.height);
     }
     aiLines.forEach(line => {
-      drawGeometricLine(ctx, line.x1, line.y1, line.x2, line.y2, line.color, false);
+      drawGeometricLine(aiCtx, line.x1, line.y1, line.x2, line.y2, line.color);
     });
   }
 
@@ -2169,22 +2174,22 @@
   function undoAiLine() {
     if (aiLines.length > 0) {
       aiLines.pop();
-      redrawAnnotation();
+      redrawAiCanvas();
       showToast('↩️ 已復原上一條直線！');
     }
   }
 
   function clearUserAnnotation() {
     aiLines = [];
-    redrawAnnotation();
-    showToast('🔄 已清除所有線條，請重新拉出直線！');
+    redrawAiCanvas();
+    showToast('🔄 已清除所有線條！');
   }
 
   function startAiDraw(e) {
-    if (!ctx || !annotateCanvas) return;
+    if (!aiCtx || !aiCanvas) return;
     e.preventDefault();
     isAiDrawing = true;
-    const pt = getCanvasCoords(annotateCanvas, e);
+    const pt = getCanvasCoords(aiCanvas, e);
     aiStartX = pt.x;
     aiStartY = pt.y;
     aiCurrentX = pt.x;
@@ -2192,22 +2197,30 @@
   }
 
   function drawAiMove(e) {
-    if (!isAiDrawing || !ctx || !annotateCanvas) return;
+    if (!isAiDrawing || !aiCtx || !aiCanvas) return;
     e.preventDefault();
-    const pt = getCanvasCoords(annotateCanvas, e);
-    const snapped = calculateSnappedCoords(aiStartX, aiStartY, pt.x, pt.y);
-    aiCurrentX = snapped.x;
-    aiCurrentY = snapped.y;
+    const pt = getCanvasCoords(aiCanvas, e);
+    aiCurrentX = pt.x;
+    aiCurrentY = pt.y;
 
-    redrawAnnotation();
-    drawGeometricLine(ctx, aiStartX, aiStartY, aiCurrentX, aiCurrentY, currentAiBrushColor, true);
+    redrawAiCanvas();
+    aiCtx.save();
+    aiCtx.beginPath();
+    aiCtx.lineWidth = 6;
+    aiCtx.strokeStyle = currentAiBrushColor;
+    aiCtx.lineCap = 'round';
+    aiCtx.setLineDash([6, 6]);
+    aiCtx.moveTo(aiStartX, aiStartY);
+    aiCtx.lineTo(aiCurrentX, aiCurrentY);
+    aiCtx.stroke();
+    aiCtx.restore();
   }
 
   function stopAiDraw(e) {
     if (!isAiDrawing) return;
     isAiDrawing = false;
     const dist = Math.hypot(aiCurrentX - aiStartX, aiCurrentY - aiStartY);
-    if (dist >= 10) {
+    if (dist >= 15) {
       aiLines.push({
         x1: aiStartX,
         y1: aiStartY,
@@ -2216,25 +2229,55 @@
         color: currentAiBrushColor
       });
     }
-    redrawAnnotation();
+    redrawAiCanvas();
   }
 
+  /* 真實幾何斜率計算：對比兩條拉線夾角 */
   function runAiDetection() {
     const btn = document.getElementById('btn-run-ai');
     const box = document.getElementById('ai-explanation-box');
     const text = document.getElementById('ai-explanation-text');
 
     btn.disabled = true;
-    btn.innerHTML = "⏳ AI 小博士正在比對線條邊界...";
+    btn.innerHTML = "⏳ AI 小博士正在以數學斜率進行精確檢驗...";
     box.style.display = "block";
-    text.innerHTML = "正在辨識線條走向...";
+    box.className = "feedback-box feedback-correct";
+    text.innerHTML = "正在計算夾角與走向...";
 
     setTimeout(() => {
-      text.innerHTML = `
-        <p>1. <strong>分析：</strong> 你畫出的 2 條線段走向大致相同！</p>
-        <p>2. <strong>AI 溫馨提示：</strong> 拍攝角度可能造成視覺偏差。</p>
-        <p style="color:#d85d75; font-weight:bold;">👉 請拿出直尺，量度該物品「左、中、右」的距離並填在下方！</p>
-      `;
+      if (aiLines.length < 2) {
+        box.className = "feedback-box feedback-incorrect";
+        text.innerHTML = "<strong>⚠️ 請注意：</strong> 你必須在照片上拉出至少 <strong>2 條直線</strong> 才能進行平行檢驗喔！";
+        btn.disabled = false;
+        btn.innerHTML = "🔍 請 AI 小博士分析線段並解釋";
+        return;
+      }
+
+      // 取前兩條線計算角度
+      const lA = aiLines[0];
+      const lB = aiLines[1];
+      const angleA = Math.atan2(lA.y2 - lA.y1, lA.x2 - lA.x1) * (180 / Math.PI);
+      const angleB = Math.atan2(lB.y2 - lB.y1, lB.x2 - lB.x1) * (180 / Math.PI);
+
+      let diff = Math.abs(angleA - angleB);
+      if (diff > 180) diff = 360 - diff;
+      if (diff > 90) diff = 180 - diff;
+
+      // 容許 15 度以內誤差
+      if (diff <= 15) {
+        box.className = "feedback-box feedback-correct";
+        text.innerHTML = `
+          <p>1. <strong>精準分析：</strong> 太棒了！你畫出的 2 條線段夾角差僅有 ${diff.toFixed(1)}°，<strong>走向大致相同、互相平行</strong>！</p>
+          <p style="color:#16a34a; font-weight:bold;">👉 請拿出直尺，量度該物件「左、中、右」的實際距離並填在下方，作最後驗證！</p>
+        `;
+      } else {
+        box.className = "feedback-box feedback-incorrect";
+        text.innerHTML = `
+          <p>1. <strong>幾何檢測結果：</strong> 哎呀！你畫出的 2 條線段夾角差高達 ${diff.toFixed(1)}°，<strong>方向並不一致或呈交叉相交</strong>，這不是平行線喔！</p>
+          <p style="color:#dc2626; font-weight:bold;">👉 請點擊上方「🔄 重畫」，在照片上重新拉出兩條筆直且方向一致的平行線！</p>
+        `;
+      }
+
       btn.disabled = false;
       btn.innerHTML = "🔍 重新分析";
     }, 1000);
@@ -2280,7 +2323,7 @@
       newLine.style.display = 'none';
       newText.style.display = 'none';
       triangle.style.transform = 'translate(85px, 95px)';
-      descText.innerHTML = "<strong>第 2 步：貼 📏</strong> 拿出一把直尺，緊貼三角尺的另一條直角邊作為滑動軌道。";
+      descText.innerHTML = "<strong>第 2 步：貼 📏</strong> 拿出一把直尺，緊貼三角尺的另一條直角邊作為軌道。";
     } else if (stepNum === 3) {
       ruler.style.display = 'block';
       newLine.style.display = 'none';
@@ -2304,7 +2347,7 @@
         const p = document.getElementById('single-drawing-preview');
         p.src = e.target.result;
         p.style.display = 'block';
-        showToast('✓ 平行線已記錄！');
+        showToast('✓ 平行線手稿已上載！');
       };
       reader.readAsDataURL(file);
     }
@@ -2348,20 +2391,6 @@
     else if (el.innerText === '⭐️⭐️') el.innerText = '⭐️';
     else el.innerText = '⭐️⭐️⭐️';
   }
-
-  /* 確保全域事件與畫布於 DOM 載入時正確初始化 */
-  window.addEventListener('DOMContentLoaded', () => {
-    initPreviewCanvas();
-    initAiCanvas();
-    window.addEventListener('mouseup', () => {
-      if (isPreviewDrawing) stopPreviewDraw();
-      if (isAiDrawing) stopAiDraw();
-    });
-    window.addEventListener('touchend', () => {
-      if (isPreviewDrawing) stopPreviewDraw();
-      if (isAiDrawing) stopAiDraw();
-    });
-  });
 </script>
 
 </body>
