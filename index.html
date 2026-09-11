@@ -1203,15 +1203,15 @@
     </section>
   </div>
 
-  <!-- ==================== 關卡 4：任務四 平行線通關測試 ＆ 全港小三常考題型生成器 ==================== -->
+  <!-- ==================== 關卡 4：任務四 平行線通關測試 ＆ 常考題型生成器 ==================== -->
   <div id="act4-summary-tab" class="tab-content">
     <section class="section-card">
-      <h2 class="section-title"><span>🎯</span> 任務四：平行線通關測試 ＆ 香港小三經典考題生成器</h2>
+      <h2 class="section-title"><span>🎯</span> 任務四：平行線通關測試 ＆ 常考題型生成器</h2>
       <p style="margin: 0; font-size: 14px; color: #666;">
-        涵蓋香港小三最新教科書及名校常考題型（<strong>教科書標準定義、字母 M / A / S 筆畫辨析、多條交錯虛線找平行、方格紙五點連線、複合垂直線段與一長一短平行線</strong>）。點選答案後<strong>答對直接計分，答錯才會提供幾何解析！</strong>
+        。點選答案後<strong>答對直接計分，答錯提供解釋！</strong>
       </p>
 
-      <!-- 香港小學數學教科書官方標準字眼告示牌 -->
+      <!-- 重點 -->
       <div class="textbook-billboard">
         <h3 class="textbook-billboard-title">平行線</h3>
         <ul class="textbook-billboard-points">
@@ -1224,7 +1224,7 @@
             <line x1="25" y1="65" x2="55" y2="15" stroke="#b45309" stroke-width="3.5" stroke-linecap="round"/>
             <line x1="45" y1="65" x2="75" y2="15" stroke="#b45309" stroke-width="3.5" stroke-linecap="round"/>
             
-            <!-- 綠色水平平行線 (一短一長，教科書重點展示) -->
+            <!-- 綠色水平平行線 (一短一長) -->
             <line x1="105" y1="28" x2="165" y2="28" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round"/>
             <line x1="90" y1="55" x2="180" y2="55" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round"/>
             
@@ -1237,22 +1237,22 @@
 
       <div class="ai-generator-panel">
         <div class="prompt-framework-box">
-          <div class="prompt-tag-badge">🤖 初探 AI 出題樂趣：小三常考提問指令框架</div>
+          <div class="prompt-tag-badge">🤖 初探 AI 出題指令框架</div>
           <p style="margin: 0; font-size: 13px; color: #555;">
-            體驗向 AI 提出精確的指令（Prompt），精準訓練香港小三數學常考盲點：
+            體驗向 AI 提出精確的指令（Prompt）：
           </p>
           <div class="prompt-btn-row">
-            <button type="button" class="btn-prompt-chip active" id="filter-all" onclick="setPromptFilter('all')">📚 全套常考綜合題 (推薦)</button>
-            <button type="button" class="btn-prompt-chip" id="filter-grid" onclick="setPromptFilter('grid')">📐 方格紙五點連線 & 交錯虛線</button>
-            <button type="button" class="btn-prompt-chip" id="filter-judge" onclick="setPromptFilter('judge')">🔤 字母 M/A/S、一長一短與線段辨析</button>
+            <button type="button" class="btn-prompt-chip active" id="filter-all" onclick="setPromptFilter('all')">📚 綜合題 (推薦)</button>
+            <button type="button" class="btn-prompt-chip" id="filter-grid" onclick="setPromptFilter('grid')">📐 方格紙連線 & 交錯虛線</button>
+            <button type="button" class="btn-prompt-chip" id="filter-judge" onclick="setPromptFilter('judge')">🔤 線段辨析</button>
           </div>
           <div class="prompt-template-text" id="ai-prompt-display">
-            「我是一個香港小學三年級的學生，正在學習『平行線』。請牢記香港小三課本定義：『平行線無論延長多少都不會相交，兩條平行線的距離處處相等』。請隨機為我生成 5 道最新教科書題型（包括字母 M/A/S、多條交錯虛線找平行、一長一短平行線、方格紙五點連線題），即時核對我的答案，答錯時為我深入解析幾何原理！」
+            「我是一個香港小學三年級的學生，正在學習『平行線』。請隨機為我生成 5 道溫習題，即時核對我的答案，答錯時為我深入解釋！」
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button type="button" class="btn-secondary" style="margin: 0;" onclick="copyPromptFramework()">📋 複製此提問指令</button>
             <button type="button" class="btn-action" style="flex: 1; min-width: 180px; padding: 10px 16px; font-size: 14px;" onclick="generateAiQuizSet()">
-              ✨ 啟動 AI 生成全新 5 題溫習題 🎲
+              ✨ 啟動 AI 生成溫習題 🎲
             </button>
           </div>
         </div>
@@ -1270,7 +1270,7 @@
           </div>
 
           <div id="ai-quiz-list" style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px;">
-            <!-- 動態插入 5 題香港常考試題 -->
+            <!-- 動態插入題目 -->
           </div>
         </div>
       </div>
@@ -1280,7 +1280,7 @@
         <div>
           <strong>科技與網絡安全素養：</strong><br>
           1. 拍照上傳影像時，嚴守私隱保護，不得拍攝同學容貌。<br>
-          2. AI 是學習輔助工具，幾何圖形嚴謹性始終以工具量度實測為準！
+          2. AI 是學習輔助工具，數學的嚴謹性始終以工具量度實測為準！
         </div>
       </div>
     </section>
@@ -1291,7 +1291,7 @@
 <div class="modal-overlay" id="teacher-auth-modal" style="display: none;" onclick="handleModalOverlayClick(event)">
   <div class="modal-card">
     <h3><span>🔐</span> 教師身份認證</h3>
-    <p>切換至教師中控廣播主機前，請輸入授課教師通行密碼：</p>
+    <p>切換至教師模式前，請輸入教師通行密碼：</p>
     <input 
       type="password" 
       id="teacher-pwd-input" 
@@ -1310,7 +1310,7 @@
   </div>
 </div>
 
-<!-- 浮動訊息提示盒 -->
+<!-- 浮動訊息 -->
 <div class="toast-box" id="app-toast"></div>
 
 <script>
@@ -1333,7 +1333,7 @@
     {
       id: 'hk_mas_letters',
       category: 'judge',
-      question: '【課本常考・字母筆畫辨析】觀察下列 3 個英文字母 M、A、S，哪一個字母的筆畫中含有「互相平行」的直線？',
+      question: '觀察下列 3 個英文字母 M、A、S，哪一個字母含有「互相平行」的直線？',
       svg: `
         <svg viewBox="0 0 320 110" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1365,12 +1365,12 @@
         { text: 'C. 字母 S（折線線段互相平行）', correct: false },
         { text: 'D. 三個字母都沒有平行線', correct: false }
       ],
-      explanation: '💡 <strong>香港課本幾何解析：</strong><br>• <strong>字母 M：</strong> 最左邊和最右邊的兩條直立筆畫都是筆直向上的豎線，方向一致，兩線之間的距離處處相等，無論延長多少都不會相交，所以是一組互相平行的線段！<br>• <strong>字母 A：</strong> 兩條側邊斜線在上方相交成尖角，相交線不是平行線。<br>• <strong>字母 S：</strong> 筆畫走向不斷轉向相交，沒有平行線。'
+      explanation: '💡 <br>• <strong>字母 M：</strong> 最左邊和最右邊的兩條直立筆畫都是筆直向上的豎線，方向一致，兩線之間的距離處處相等，無論延長多少都不會相交，所以是一組互相平行的線段！<br>• <strong>字母 A：</strong> 兩條側邊斜線在上方相交成尖角，相交線不是平行線。<br>• <strong>字母 S：</strong> 筆畫走向不斷轉向相交，沒有平行線。'
     },
     {
       id: 'hk_length_diff',
       category: 'judge',
-      question: '【課本核心概念・長短線段】觀察下圖的兩條綠色水平線，一條長、一條短。根據香港小三課本定義，它們是平行線嗎？',
+      question: '觀察下圖的兩條綠色水平線，一條長、一條短。它們是平行線嗎？',
       svg: `
         <svg viewBox="0 0 300 110" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1385,15 +1385,15 @@
         </svg>
       `,
       options: [
-        { text: 'A. 互相平行（兩條直線方向完全一致，無論延長多少都不會相交，且距離處處相等）', correct: true },
-        { text: 'B. 不平行（因為兩條線段的長度不相等，一長一短）', correct: false }
+        { text: 'A. 互相平行', correct: true },
+        { text: 'B. 不平行', correct: false }
       ],
-      explanation: '💡 <strong>香港課本幾何解析：</strong><br>★ <strong>牢記課本口訣：</strong>「平行線無論延長多少都不會相交，兩條平行線的距離處處相等」。<br>平行線與線段長短完全無關！即使一條只有 1 厘米，另一條有 100 厘米，只要向兩端無限延長時永遠不會相碰、兩線間距處處相等，就是標準的平行線！'
+      explanation: '💡 <strong>牢記：</strong>「平行線無論延長多少都不會相交，兩條平行線的距離處處相等」。<br>平行線與線段長短完全無關！即使一條只有 1 厘米，另一條有 100 厘米，只要向兩端無限延長時永遠不會相碰、兩線間距處處相等，就是標準的平行線！'
     },
     {
       id: 'hk_dashed_cross',
       category: 'grid',
-      question: '【課本常考・交錯虛線找平行】下圖中有多條互相交叉的虛線。沿著哪一組虛線，能找出一組「無論延長多少都不會相交」的平行線？',
+      question: '下圖中有多條互相交叉的虛線。沿著哪一組虛線，能找出一組「無論延長多少都不會相交」的平行線？',
       svg: `
         <svg viewBox="0 0 300 130" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1414,12 +1414,12 @@
         { text: 'B. 虛線 1 和 干擾線 A 互相平行', correct: false },
         { text: 'C. 干擾線 A 和 干擾線 B 互相平行', correct: false }
       ],
-      explanation: '💡 <strong>香港課本幾何解析：</strong><br>觀察多條交錯虛線時，要尋找「走向完全一致、傾斜度相同」的一對線。<br>• <strong>虛線 1 與 虛線 2：</strong> 沿著相同的傾斜方向筆直延伸，兩線之間的垂直距離處處相等，無論延長多少都不會相交，是一組互相平行的線！<br>• 其餘線條延長後均會與它們交叉相交。'
+      explanation: '💡<br>觀察多條交錯虛線時，要尋找「走向完全一致、傾斜度相同」的一對線。<br>• <strong>虛線 1 與 虛線 2：</strong> 沿著相同的傾斜方向筆直延伸，兩線之間的垂直距離處處相等，無論延長多少都不會相交，是一組互相平行的線！<br>• 其餘線條延長後均會與它們交叉相交。'
     },
     {
       id: 'hk_letter',
       category: 'judge',
-      question: '【常見考題・英文字母辨析】觀察下列英文字母，哪一個字母的筆畫中含有「互相平行」的線段？',
+      question: '觀察下列英文字母，哪一個字母的筆畫中含有「互相平行」的線段？',
       svg: `
         <svg viewBox="0 0 340 100" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1462,12 +1462,12 @@
         { text: 'C. 字母 L（一條豎線和一條橫線互相平行）', correct: false },
         { text: 'D. 字母 W（左右兩邊斜線互相平行）', correct: false }
       ],
-      explanation: '💡 <strong>香港常考幾何解析：</strong><br>• <strong>字母 E：</strong> 上、中、下三條水平橫線無論延長多少都不會相交，彼此互相平行！<br>• <strong>字母 A & W：</strong> 線條傾斜相交成尖角，不是平行線。<br>• <strong>字母 L：</strong> 兩條線相交成 90° 直角，是互相垂直，不是平行！'
+      explanation: '💡 <br>• <strong>字母 E：</strong> 上、中、下三條水平橫線無論延長多少都不會相交，彼此互相平行！<br>• <strong>字母 A & W：</strong> 線條傾斜相交成尖角，不是平行線。<br>• <strong>字母 L：</strong> 兩條線相交成直角，是互相垂直，不是平行！'
     },
     {
       id: 'hk_dotgrid',
       category: 'grid',
-      question: '【常見考題・方格紙五點連線題】方格網上有一條黑線。圖中有五個點 M、N、O、P、Q。把哪兩點用線段連起來，能使它與原有的黑線互相平行？',
+      question: '方格紙上有一條黑線。圖中有五個點 M、N、O、P、Q。把哪兩點用線段連起來，能使它與原有的黑線互相平行？',
       svg: `
         <svg viewBox="0 0 300 150" width="100%" height="100%">
           <defs>
@@ -1503,12 +1503,12 @@
         { text: 'C. 把 點 P 和 點 Q 連起來', correct: false },
         { text: 'D. 把 點 M 和 點 P 連起來', correct: false }
       ],
-      explanation: '💡 <strong>香港常考幾何解析：</strong><br>方格紙斜線判斷的核心是「走格子步數」！<br>• 原黑線段：從左到右為「向右 3 格、向上 1 格」。<br>• 點 O 到 點 N：向右 6 格、向上 2 格，約分後同樣是「向右 3 格、向上 1 格」！走向完全相同，距離處處相等，無論延長多少都不會相交，所以互相平行！'
+      explanation: '💡 <br>方格紙斜線判斷的核心是「走格子步數」！<br>• 原黑線段：從左到右為「向右 3 格、向上 1 格」。<br>• 點 O 到 點 N：向右 6 格、向上 2 格，約分後同樣是「向右 3 格、向上 1 格」！走向完全相同，距離處處相等，無論延長多少都不會相交，所以互相平行！'
     },
     {
       id: 'hk_wave',
       category: 'judge',
-      question: '【常見考題・判斷陷阱題】觀察下圖的兩條「波浪形線條」。它們上下間距剛好都是 2cm，它們是「平行線」嗎？',
+      question: '觀察下圖的兩條「波浪形線條」。它們上下間距剛好都是 2cm，它們是「平行線」嗎？',
       svg: `
         <svg viewBox="0 0 280 110" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1520,15 +1520,15 @@
         </svg>
       `,
       options: [
-        { text: 'A. 不是平行線（在數學幾何定義中，平行線必須是「直線」，彎曲的曲線不是平行線）', correct: true },
-        { text: 'B. 互相平行（因為兩條波浪線間距處處相等，而且看起來永遠不會相碰）', correct: false }
+        { text: 'A. 不是平行線', correct: true },
+        { text: 'B. 互相平行', correct: false }
       ],
-      explanation: '💡 <strong>香港常考幾何解析：</strong><br>這是小三練習中最經典的陷阱題！幾何學中平行線的定義必須是「同一平面內的兩條<strong>直線</strong>」。圖中的線條是彎曲的曲線（波浪線），雖然間距相等，但它<strong>不是直線</strong>，因此絕對不能稱為平行線！'
+      explanation: '💡 <br>這是經典的陷阱題！幾何學中平行線的定義必須是「同一平面內的兩條<strong>直線</strong>」。圖中的線條是彎曲的曲線（波浪線），雖然間距相等，但它<strong>不是直線</strong>，因此絕對不能稱為平行線！'
     },
     {
       id: 'hk_multiline',
       category: 'judge',
-      question: '【常見考題・複合線段題】觀察下圖，直線 a 上立著三條線段 c、d 和 e，直線 b 斜穿過 d。圖中哪三條線段是一組互相平行的線？',
+      question: '觀察下圖，直線 a 上立著三條線段 c、d 和 e，直線 b 斜穿過 d。圖中哪三條線段是一組互相平行的線？',
       svg: `
         <svg viewBox="0 0 280 140" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1554,12 +1554,12 @@
         { text: 'B. 直線 a 和直線 b 互相平行', correct: false },
         { text: 'C. 線段 a、線段 c 和線段 d 互相平行', correct: false }
       ],
-      explanation: '💡 <strong>香港常考幾何解析：</strong><br>在幾何學中，「在同一平面內，垂直於同一條直線（直線 a）的所有直線都互相平行」。線段 c、d、e 沿著相同的傾斜角度直立，彼此距離處處相等，無論延長多少都不會相交，所以是一組互相平行的線段！'
+      explanation: '💡 <br>在同一平面內，垂直於同一條直線（直線 a）的所有直線都互相平行。線段 c、d、e 沿著相同的傾斜角度直立，彼此距離處處相等，無論延長多少都不會相交，所以是一組互相平行的線段！'
     },
     {
       id: 'hk_shapes',
       category: 'judge',
-      question: '【常見考題・幾何圖形對邊題】觀察下方四個平面圖形 A、B、C、D。哪一個圖形擁有「多於 1 組」互相平行的對邊？',
+      question: '觀察下方四個平面圖形 A、B、C、D。哪一個圖形擁有「多於 1 組」互相平行的對邊？',
       svg: `
         <svg viewBox="0 0 340 110" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1573,12 +1573,12 @@
             <polygon points="35,10 65,35 55,70 15,70 5,35" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
             <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">B (五邊形)</text>
           </g>
-          <!-- 圖形 C: 等腰梯形 (只有1組平行線) -->
+          <!-- 圖形 C: 等腰梯形 -->
           <g transform="translate(175, 15)">
             <polygon points="20,15 50,15 65,70 5,70" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
             <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">C (梯形:1組)</text>
           </g>
-          <!-- 圖形 D: 兩側挖圓弧的對稱裝飾圖形 (上下水平對邊一組，左右直邊對稱一組) -->
+          <!-- 圖形 D: 兩側挖圓弧的對稱裝飾圖形 -->
           <g transform="translate(255, 15)">
             <path d="M 15 15 L 55 15 C 50 25, 50 45, 55 55 L 55 70 L 15 70 C 20 60, 20 40, 15 30 Z" fill="#fff0f5" stroke="#ff1493" stroke-width="2.5"/>
             <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#d85d75">D (對稱圖形)</text>
@@ -1591,7 +1591,7 @@
         { text: 'C. 圖形 B（五邊形擁有 2 組平行對邊）', correct: false },
         { text: 'D. 圖形 A（V字形有 3 組平行線）', correct: false }
       ],
-      explanation: '💡 <strong>香港常考幾何解析：</strong><br>• <strong>圖形 C（梯形）：</strong> 只有「上底與下底」互相平行，左右兩腰向上延長會相交，所以<strong>剛好只有 1 組</strong>平行線！<br>• <strong>圖形 D：</strong> 上下兩條直線對邊互相平行（第 1 組）；中間平直的側邊也互相平行（第 2 組），總共多於 1 組平行線！'
+      explanation: '💡 <br>• <strong>圖形 C（梯形）：</strong> 只有「上底與下底」互相平行，左右兩腰向上延長會相交，所以<strong>剛好只有 1 組</strong>平行線！<br>• <strong>圖形 D：</strong> 上下兩條直線對邊互相平行（第 1 組）；中間平直的側邊也互相平行（第 2 組），總共多於 1 組平行線！'
     }
   ];
 
@@ -1608,11 +1608,11 @@
 
     const promptDisplay = document.getElementById('ai-prompt-display');
     if (type === 'all') {
-      promptDisplay.innerText = "「我是一個香港小學三年級的學生，正在學習『平行線』。請牢記香港小三課本定義：『平行線無論延長多少都不會相交，兩條平行線的距離處處相等』。請隨機為我生成 5 道最新教科書題型（包括字母 M/A/S、多條交錯虛線找平行、一長一短平行線、方格紙五點連線題），即時核對我的答案，答錯時為我深入解析幾何原理！」";
+      promptDisplay.innerText = "「我是一個香港小學三年級的學生，正在學習『平行線』。請為我生成5題温習題目，即時核對我的答案，答錯時為我解釋！」";
     } else if (type === 'grid') {
-      promptDisplay.innerText = "「我是一個小學三年級的學生，想專門訓練『方格紙五點連線題、多條交錯虛線找平行與斜線作圖』。請牢記課本定義：平行線無論延長多少都不會相交，距離處處相等。請為我生成 5 道作圖觀察題，即時核對答案，答錯時詳細解釋相交關係！」";
+      promptDisplay.innerText = "「我是一個小學三年級的學生，想練習平行線的內容。請為我生成 5 道作圖觀察題，即時核對答案，答錯時為我解釋！」";
     } else if (type === 'judge') {
-      promptDisplay.innerText = "「我是一個小學三年級的學生，想辨析英文字母 M/A/S/E 中的平行線、一長一短平行線與波浪線陷阱。請根據課本標準出 5 道概念辨析題，即時核對答案，答錯時深入解析幾何原理！」";
+      promptDisplay.innerText = "「我是一個小學三年級的學生，請根據課本標準出 5 道概念辨析題，即時核對答案，答錯時為我解釋！」";
     }
   }
 
@@ -1624,7 +1624,7 @@
     tempInput.select();
     try {
       document.execCommand('copy');
-      showToast('📋 已成功複製香港小三專屬 AI 出題指令框架！');
+      showToast('📋 已成功複製 AI 出題指令框架！');
     } catch (err) {
       showToast('請手動複製指令文字！');
     }
@@ -1641,14 +1641,14 @@
       pool = judgeOnes.length >= 3 ? judgeOnes : pool;
     }
 
-    // 洗牌隨機抽取 5 題
+    // 隨機抽取 5 題
     pool.sort(() => 0.5 - Math.random());
     currentActiveQuizSet = pool.slice(0, 5);
     userAnswersState = {};
 
     renderQuizList();
     updateQuizScoreBanner();
-    showToast('✨ AI 導師已為你生成全新 5 道香港小三經典平行線練習題！');
+    showToast('✨ AI 導師已為你生成 5 道平行線練習題！');
   }
 
   function renderQuizList() {
@@ -1699,7 +1699,7 @@
   /*
    * 核心互動邏輯：
    * 答對時：不顯示解釋，保持介面清爽只加分！
-   * 答錯時：才自動展開詳細幾何解析，落實訂正！
+   * 答錯時：才自動展開詳細幾何解釋，落實訂正！
    */
   function selectQuizAnswer(qIdx, optIdx) {
     const qData = currentActiveQuizSet[qIdx];
@@ -1740,7 +1740,7 @@
         // 答錯：自動展開詳細幾何解析
         statusBadge.innerHTML = '<span style="color:#dc3545; font-weight:bold;">✕ 答錯 (已提供解析)</span>';
         fbBox.className = 'feedback-box feedback-incorrect';
-        fbText.innerHTML = '<strong>❌ 答錯了！請細閱下方 AI 老師幾何解析進行訂正：</strong>';
+        fbText.innerHTML = '<strong>❌ 答錯了！請細閱下方 AI 老師的解釋進行訂正：</strong>';
         explainBox.style.display = 'block';
       }
     }
@@ -1762,7 +1762,7 @@
 
     if (answeredCount === 5) {
       if (score === 100) {
-        showToast('🏆 滿分 100 分！你完全攻克了香港小三平行線的所有經典考題！');
+        showToast('🏆 滿分 100 分！你完全了平行線的所有題目！');
       } else {
         showToast(`🎉 完成練習！本次得分：${score} 分，可點擊「✨ 啟動 AI」再次組題挑戰！`);
       }
@@ -1784,7 +1784,7 @@
       monitorCell.innerHTML = '<span style="color:#28a745;">✓ 答對</span>';
     } else {
       box.className = 'feedback-box feedback-incorrect';
-      text.innerHTML = "<strong>✕ 答錯了！請閱讀解析：</strong>";
+      text.innerHTML = "<strong>✕ 答錯了！請閱讀解釋：</strong>";
       explainBox.style.display = 'block';
       monitorCell.innerHTML = '<span style="color:#dc3545;">✕ 答錯</span>';
     }
@@ -1804,13 +1804,13 @@
       monitorCell.innerHTML = '<span style="color:#28a745;">✓ 答對</span>';
     } else {
       box.className = 'feedback-box feedback-incorrect';
-      text.innerHTML = "<strong>✕ 答錯了！請閱讀解析：</strong>";
+      text.innerHTML = "<strong>✕ 答錯了！請閱讀解釋：</strong>";
       explainBox.style.display = 'block';
       monitorCell.innerHTML = '<span style="color:#dc3545;">✕ 答錯</span>';
     }
   }
 
-  // 頁面載入時初始化第 1 套常考試題
+  // 頁面載入初始化第 1 套題目
   window.addEventListener('DOMContentLoaded', () => {
     generateAiQuizSet();
   });
@@ -1875,7 +1875,7 @@
     if (pwdInput.value === '28844775') {
       closeTeacherAuthModal();
       setTeacherMode(true);
-      showToast('✅ 教師身份驗證成功，已解鎖中控廣播台！');
+      showToast('✅ 教師身份驗證成功，已解鎖廣播台！');
     } else {
       if (errMsg) {
         errMsg.style.display = 'block';
