@@ -816,7 +816,7 @@
   <!-- 學生端即時接收廣播通知橫額 -->
   <div class="sync-banner" id="student-sync-notice">
     <span>📡</span>
-    <span id="sync-status-msg">教師廣播連線中：目前課堂進度為【課前自學預習】</span>
+    <span id="sync-status-msg">教師廣播連線中：目前課堂進度為【課前預習】</span>
   </div>
 
   <!-- ==================== 教師專屬管理面板 ==================== -->
@@ -847,13 +847,13 @@
 
     <!-- 教師全班預習即時監控儀表板 -->
     <div>
-      <h4 style="margin: 0 0 8px; color: var(--primary-dark); font-size: 14px;">📊 全班課前 4 個任務成果即時監控：</h4>
+      <h4 style="margin: 0 0 8px; color: var(--primary-dark); font-size: 14px;">📊 全班課前預習成果檢視：</h4>
       <table class="preview-monitor-table">
         <thead>
           <tr>
             <th>學號/組別</th>
             <th>學生姓名 / 組員</th>
-            <th>微課影片</th>
+            <th>自學影片</th>
             <th>長方形標色</th>
             <th>概念題 1</th>
             <th>概念題 2</th>
@@ -897,7 +897,7 @@
   <div class="student-bar">
     <div class="input-field">
       <span>班別：3</span>
-      <input type="text" placeholder="A/B/C/D" aria-label="班別">
+      <input type="text" placeholder=" A / B / C / D " aria-label="班別">
     </div>
     <div class="input-field">
       <span>組員 A：</span>
@@ -2230,7 +2230,7 @@
           <input type="text" style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:4px 8px; font-size:12px;" placeholder="寫下讚賞...">
         `;
         wall.insertBefore(newCard, wall.firstChild);
-        showToast('🎉 本組合作繪畫的平行線街道圖已成功發布至成果牆！');
+        showToast('🎉 本組繪畫的平行線街道圖已成功發布至成果牆！');
       };
       reader.readAsDataURL(file);
     }
