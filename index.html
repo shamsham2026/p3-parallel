@@ -1397,7 +1397,7 @@
       svg: `
         <svg viewBox="0 0 300 130" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
-          <!-- 平行的一組斜虛線 (線 1 與 線 2) -->
+          <!-- 平行的一組斜虛線 (線 C 與 線 D) -->
           <line x1="20" y1="100" x2="260" y2="20" stroke="#d97706" stroke-width="3" stroke-dasharray="6,4"/>
           <text x="268" y="22" font-size="12" font-weight="bold" fill="#d97706"> C</text>
           <line x1="50" y1="125" x2="290" y2="45" stroke="#d97706" stroke-width="3" stroke-dasharray="6,4"/>
@@ -1414,7 +1414,7 @@
         { text: 'B. C 和  A 互相平行', correct: false },
         { text: 'C.  A 和  B 互相平行', correct: false }
       ],
-      explanation: '💡<br>觀察多條交錯虛線時，要尋找「走向完全一致、傾斜度相同」的一對線。<br>• <strong>虛線 1 與 虛線 2：</strong> 沿著相同的傾斜方向筆直延伸，兩線之間的垂直距離處處相等，無論延長多少都不會相交，是一組互相平行的線！<br>• 其餘線條延長後均會與它們交叉相交。'
+      explanation: '💡<br>觀察多條交錯虛線時，要尋找「走向完全一致、傾斜度相同」的一對線。<br>• <strong>C 與 D：</strong> 沿著相同的傾斜方向筆直延伸，兩線之間的垂直距離處處相等，無論延長多少都不會相交，是一組互相平行的線！<br>• 其餘線條延長後均會與它們交叉相交。'
     },
     {
       id: 'hk_letter',
@@ -1550,7 +1550,7 @@
         </svg>
       `,
       options: [
-        { text: 'A. 線段 c、線段 d 和線段 e 互相平行（它們同時垂直於直線 a，無論延長多少都不會相交，距離處處相等）', correct: true },
+        { text: 'A. 線段 c、線段 d 和線段 e 互相平行', correct: true },
         { text: 'B. 直線 a 和直線 b 互相平行', correct: false },
         { text: 'C. 線段 a、線段 c 和線段 d 互相平行', correct: false }
       ],
@@ -1586,10 +1586,10 @@
         </svg>
       `,
       options: [
-        { text: 'A. 圖形 D（上下兩條平直水平邊互相平行；左右兩側也是互相平行的對邊，總共多於 1 組）', correct: true },
-        { text: 'B. 圖形 C（梯形擁有 2 組平行對邊）', correct: false },
-        { text: 'C. 圖形 B（五邊形擁有 2 組平行對邊）', correct: false },
-        { text: 'D. 圖形 A（V字形有 3 組平行線）', correct: false }
+        { text: 'A. 圖形 D', correct: true },
+        { text: 'B. 圖形 C', correct: false },
+        { text: 'C. 圖形 B', correct: false },
+        { text: 'D. 圖形 A', correct: false }
       ],
       explanation: '💡 <br>• <strong>圖形 C（梯形）：</strong> 只有「上底與下底」互相平行，左右兩腰向上延長會相交，所以<strong>剛好只有 1 組</strong>平行線！<br>• <strong>圖形 D：</strong> 上下兩條直線對邊互相平行（第 1 組）；中間平直的側邊也互相平行（第 2 組），總共多於 1 組平行線！'
     }
@@ -1698,8 +1698,8 @@
 
   /*
    * 核心互動邏輯：
-   * 答對時：不顯示解釋，保持介面清爽只加分！
-   * 答錯時：才自動展開詳細幾何解釋，落實訂正！
+   * 答對時：只加分！
+   * 答錯時：自動展開解釋！
    */
   function selectQuizAnswer(qIdx, optIdx) {
     const qData = currentActiveQuizSet[qIdx];
@@ -1737,10 +1737,10 @@
         fbText.innerHTML = '<strong>🎉 恭喜你！回答正確！</strong>';
         explainBox.style.display = 'none';
       } else {
-        // 答錯：自動展開詳細幾何解析
-        statusBadge.innerHTML = '<span style="color:#dc3545; font-weight:bold;">✕ 答錯 (已提供解析)</span>';
+        // 答錯：自動展開解釋
+        statusBadge.innerHTML = '<span style="color:#dc3545; font-weight:bold;">✕ 答錯 (已提供解釋)</span>';
         fbBox.className = 'feedback-box feedback-incorrect';
-        fbText.innerHTML = '<strong>❌ 答錯了！請細閱下方 AI 老師的解釋進行訂正：</strong>';
+        fbText.innerHTML = '<strong>❌ 答錯了！請細閱下方 AI 老師的解釋：</strong>';
         explainBox.style.display = 'block';
       }
     }
