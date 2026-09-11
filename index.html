@@ -806,7 +806,7 @@
   <header class="role-header-bar">
     <div class="role-badge" id="role-display">
       <span>🎓</span>
-      <span id="role-text">目前身份：【學生端】一人一機 / 二人協作模式</span>
+      <span id="role-text">目前身份：【學生端】</span>
     </div>
     <button type="button" class="btn-switch-role" onclick="toggleSystemRole()">
       🔄 切換為【教師控制主機】
@@ -1900,7 +1900,7 @@
       studentSyncNotice.style.display = 'none';
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('locked'));
     } else {
-      roleText.innerText = '目前身份：【學生模式】一人一機 / 二人協作模式';
+      roleText.innerText = '目前身份：【學生模式】';
       teacherPanel.style.display = 'none';
       switchBtn.innerText = '🔄 切換為【教師模式】';
       studentSyncNotice.style.display = 'flex';
