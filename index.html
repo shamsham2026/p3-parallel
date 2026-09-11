@@ -347,7 +347,7 @@
       align-items: center;
     }
 
-    #photo-annotate-canvas {
+    #photo-annotate-canvas, #preview-annotate-canvas {
       width: 100%;
       height: 100%;
       display: block;
@@ -1233,8 +1233,7 @@
   let toastTimer = null;
 
   /*
-   * 出題引擎
-   * 嚴格取材
+   * 8 大題型動態出題引擎
    */
   const questionGenerators = [
     // 題型 1：方格紙連線題
@@ -1557,11 +1556,6 @@
     });
   }
 
-  /*
-   * 答題核心邏輯：
-   * 答對時：直接加分！
-   * 答錯時：【自動展開解釋】！
-   */
   function selectQuizAnswer(qIdx, optIdx) {
     const qData = currentActiveQuizSet[qIdx];
     if (!qData) return;
@@ -1569,7 +1563,6 @@
     const isCorrect = qData.options[optIdx].correct;
     userAnswersState[qIdx] = isCorrect;
 
-    // 鎖定該題所有選項按鈕
     qData.options.forEach((_, i) => {
       const btn = document.getElementById(`opt-btn-${qIdx}-${i}`);
       if (btn) {
@@ -1592,13 +1585,11 @@
       fbBox.style.display = 'block';
 
       if (isCorrect) {
-        // 答對：不顯示解釋
         statusBadge.innerHTML = '<span style="color:#16a34a; font-weight:bold;">✓ 答對 (+20分)</span>';
         fbBox.className = 'feedback-box feedback-correct';
         fbText.innerHTML = '<strong>🎉 恭喜你！回答正確！</strong>';
         explainBox.style.display = 'none';
       } else {
-        // 答錯：自動展開詳細解釋
         statusBadge.innerHTML = '<span style="color:#dc2626; font-weight:bold;">✕ 答錯 (已提供解釋)</span>';
         fbBox.className = 'feedback-box feedback-incorrect';
         fbText.innerHTML = '<strong>❌ 答錯了！請細閱下方解釋：</strong>';
@@ -1630,7 +1621,6 @@
     }
   }
 
-  // 自由體驗 AI 提示詞卡片切換
   function toggleOptionalAiBox() {
     const content = document.getElementById('optional-ai-content');
     const arrow = document.getElementById('ai-toggle-arrow');
@@ -1658,7 +1648,6 @@
     document.body.removeChild(tempInput);
   }
 
-  // 預習任務 3：答對不顯示解釋，答錯才自動展開解釋
   function checkQuiz1(isCorrect, btn) {
     const box = document.getElementById('quiz1-feedback');
     const text = document.getElementById('quiz1-feedback-text');
@@ -1699,7 +1688,6 @@
     }
   }
 
-  /* 頁面載入初始化 */
   window.addEventListener('DOMContentLoaded', () => {
     regenerateExitQuiz();
   });
@@ -1916,6 +1904,64 @@
     }
   }
 
+  function getCanvasCoords(canvas, e) {
+    const rect = canvas.getBoundingClientRect();
+    let cx = 0, cy = 0;
+    if (e.touches && e.touches.length > 0) {
+      cx = e.touches[0].clientX;
+      cy = e.touches[0].clientY;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+      cx = e.changedTouches[0].clientX;
+      cy = e.changedTouches[0].clientY;
+    } else {
+      cx = e.clientX;
+      cy = e.clientY;
+    }
+    return {
+      x: (cx - rect.left) * (canvas.width / rect.width),
+      y: (cy - rect.top) * (canvas.height / rect.height)
+    };
+  }
+
+  function calculateSnappedCoords(x1, y1, x2, y2) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 10) return { x: x2, y: y2 };
+
+    const angleDeg = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
+    // 接近垂直（與垂直線夾角小於 12 度），自動鎖定為正垂直線
+    if (Math.abs(angleDeg - 90) <= 12) {
+      return { x: x1, y: y2 };
+    }
+    // 接近水平（與水平線夾角小於 12 度），自動鎖定為正水平線
+    if (angleDeg <= 12) {
+      return { x: x2, y: y1 };
+    }
+    return { x: x2, y: y2 };
+  }
+
+  function drawGeometricLine(ctx, x1, y1, x2, y2, color, isDashed = false) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = color;
+    ctx.lineCap = 'round';
+    if (isDashed) ctx.setLineDash([8, 6]);
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    // 繪製幾何端點圓點
+    ctx.setLineDash([]);
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x1, y1, 5, 0, Math.PI * 2);
+    ctx.arc(x2, y2, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
   /* 預習任務 4：照片上載、畫筆標註與提交 */
   let previewCanvas = null;
   let previewCtx = null;
@@ -1927,7 +1973,7 @@
   let previewStartY = 0;
   let previewCurrentX = 0;
   let previewCurrentY = 0;
-  let previewLines = []; // 儲存已完成繪畫的直線段列表
+  let previewLines = [];
 
   function initPreviewCanvas() {
     previewCanvas = document.getElementById('preview-annotate-canvas');
@@ -1975,15 +2021,8 @@
     if (previewBgImg.src) {
       previewCtx.drawImage(previewBgImg, 0, 0, previewCanvas.width, previewCanvas.height);
     }
-    // 繪畫已鎖定的所有直線段
     previewLines.forEach(line => {
-      previewCtx.beginPath();
-      previewCtx.lineWidth = 6;
-      previewCtx.strokeStyle = line.color;
-      previewCtx.lineCap = 'round';
-      previewCtx.moveTo(line.x1, line.y1);
-      previewCtx.lineTo(line.x2, line.y2);
-      previewCtx.stroke();
+      drawGeometricLine(previewCtx, line.x1, line.y1, line.x2, line.y2, line.color, false);
     });
   }
 
@@ -2013,41 +2052,30 @@
     if (!previewCtx || !previewCanvas) return;
     e.preventDefault();
     isPreviewDrawing = true;
-    const rect = previewCanvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    previewStartX = (clientX - rect.left) * (previewCanvas.width / rect.width);
-    previewStartY = (clientY - rect.top) * (previewCanvas.height / rect.height);
-    previewCurrentX = previewStartX;
-    previewCurrentY = previewStartY;
+    const pt = getCanvasCoords(previewCanvas, e);
+    previewStartX = pt.x;
+    previewStartY = pt.y;
+    previewCurrentX = pt.x;
+    previewCurrentY = pt.y;
   }
 
   function drawPreviewMove(e) {
     if (!isPreviewDrawing || !previewCtx || !previewCanvas) return;
     e.preventDefault();
-    const rect = previewCanvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    previewCurrentX = (clientX - rect.left) * (previewCanvas.width / rect.width);
-    previewCurrentY = (clientY - rect.top) * (previewCanvas.height / rect.height);
+    const pt = getCanvasCoords(previewCanvas, e);
+    const snapped = calculateSnappedCoords(previewStartX, previewStartY, pt.x, pt.y);
+    previewCurrentX = snapped.x;
+    previewCurrentY = snapped.y;
 
-    // 重繪底圖及所有已完成直線，並動態呈現正在拉伸的直線
     redrawPreviewCanvas();
-    previewCtx.beginPath();
-    previewCtx.lineWidth = 6;
-    previewCtx.strokeStyle = currentPreviewBrushColor;
-    previewCtx.lineCap = 'round';
-    previewCtx.moveTo(previewStartX, previewStartY);
-    previewCtx.lineTo(previewCurrentX, previewCurrentY);
-    previewCtx.stroke();
+    drawGeometricLine(previewCtx, previewStartX, previewStartY, previewCurrentX, previewCurrentY, currentPreviewBrushColor, true);
   }
 
   function stopPreviewDraw(e) {
     if (!isPreviewDrawing) return;
     isPreviewDrawing = false;
-    // 檢查拉線距離大於 8 像素，避免誤觸產生孤立點
-    const distSq = Math.pow(previewCurrentX - previewStartX, 2) + Math.pow(previewCurrentY - previewStartY, 2);
-    if (distSq > 64) {
+    const dist = Math.hypot(previewCurrentX - previewStartX, previewCurrentY - previewStartY);
+    if (dist >= 10) {
       previewLines.push({
         x1: previewStartX,
         y1: previewStartY,
@@ -2071,16 +2099,30 @@
     showToast('🎉 預習任務 4 提交成功！教師已收到你的成果！');
   }
 
-  /* 確保 DOM 載入時初始化畫布引用 */
-  window.addEventListener('DOMContentLoaded', () => {
-    initPreviewCanvas();
-  });
-
-  /* 任務一 Canvas 實物塗鴉與 AI 分析 */
-  const annotateCanvas = document.getElementById('photo-annotate-canvas');
-  const ctx = annotateCanvas.getContext('2d');
-  let isDrawing = false;
+  let annotateCanvas = null;
+  let ctx = null;
+  let isAiDrawing = false;
   let bgImg = new Image();
+  let currentAiBrushColor = '#ff1493';
+  let aiStartX = 0;
+  let aiStartY = 0;
+  let aiCurrentX = 0;
+  let aiCurrentY = 0;
+  let aiLines = [];
+
+  function initAiCanvas() {
+    annotateCanvas = document.getElementById('photo-annotate-canvas');
+    if (!annotateCanvas) return;
+    ctx = annotateCanvas.getContext('2d');
+
+    annotateCanvas.addEventListener('mousedown', startAiDraw);
+    annotateCanvas.addEventListener('mousemove', drawAiMove);
+    annotateCanvas.addEventListener('mouseup', stopAiDraw);
+    annotateCanvas.addEventListener('mouseleave', stopAiDraw);
+    annotateCanvas.addEventListener('touchstart', startAiDraw, { passive: false });
+    annotateCanvas.addEventListener('touchmove', drawAiMove, { passive: false });
+    annotateCanvas.addEventListener('touchend', stopAiDraw, { passive: false });
+  }
 
   function handleAiImageUpload(event) {
     const file = event.target.files[0];
@@ -2089,12 +2131,17 @@
       reader.onload = function (e) {
         bgImg = new Image();
         bgImg.onload = function () {
-          annotateCanvas.width = 520;
-          annotateCanvas.height = 390;
-          redrawAnnotation();
-          document.getElementById('ai-annotate-stage').style.display = 'flex';
-          document.getElementById('btn-run-ai').disabled = false;
-          document.getElementById('ai-upload-prompt').innerText = "✓ 照片已載入，請在畫布上畫出一組平行線";
+          if (!annotateCanvas) initAiCanvas();
+          if (annotateCanvas) {
+            annotateCanvas.width = 520;
+            annotateCanvas.height = 390;
+            aiLines = [];
+            redrawAnnotation();
+            document.getElementById('ai-annotate-stage').style.display = 'flex';
+            document.getElementById('btn-run-ai').disabled = false;
+            document.getElementById('ai-upload-prompt').innerText = "✓ 照片已載入，請在畫布上畫出一組平行線";
+            document.getElementById('ai-explanation-box').style.display = 'none';
+          }
         };
         bgImg.src = e.target.result;
       };
@@ -2103,44 +2150,74 @@
   }
 
   function redrawAnnotation() {
+    if (!ctx || !annotateCanvas) return;
     ctx.clearRect(0, 0, annotateCanvas.width, annotateCanvas.height);
-    ctx.drawImage(bgImg, 0, 0, annotateCanvas.width, annotateCanvas.height);
+    if (bgImg.src) {
+      ctx.drawImage(bgImg, 0, 0, annotateCanvas.width, annotateCanvas.height);
+    }
+    aiLines.forEach(line => {
+      drawGeometricLine(ctx, line.x1, line.y1, line.x2, line.y2, line.color, false);
+    });
+  }
+
+  function selectAiBrush(color, btn) {
+    currentAiBrushColor = color;
+    document.querySelectorAll('#ai-annotate-stage .brush-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  function undoAiLine() {
+    if (aiLines.length > 0) {
+      aiLines.pop();
+      redrawAnnotation();
+      showToast('↩️ 已復原上一條直線！');
+    }
   }
 
   function clearUserAnnotation() {
+    aiLines = [];
+    redrawAnnotation();
+    showToast('🔄 已清除所有線條，請重新拉出直線！');
+  }
+
+  function startAiDraw(e) {
+    if (!ctx || !annotateCanvas) return;
+    e.preventDefault();
+    isAiDrawing = true;
+    const pt = getCanvasCoords(annotateCanvas, e);
+    aiStartX = pt.x;
+    aiStartY = pt.y;
+    aiCurrentX = pt.x;
+    aiCurrentY = pt.y;
+  }
+
+  function drawAiMove(e) {
+    if (!isAiDrawing || !ctx || !annotateCanvas) return;
+    e.preventDefault();
+    const pt = getCanvasCoords(annotateCanvas, e);
+    const snapped = calculateSnappedCoords(aiStartX, aiStartY, pt.x, pt.y);
+    aiCurrentX = snapped.x;
+    aiCurrentY = snapped.y;
+
+    redrawAnnotation();
+    drawGeometricLine(ctx, aiStartX, aiStartY, aiCurrentX, aiCurrentY, currentAiBrushColor, true);
+  }
+
+  function stopAiDraw(e) {
+    if (!isAiDrawing) return;
+    isAiDrawing = false;
+    const dist = Math.hypot(aiCurrentX - aiStartX, aiCurrentY - aiStartY);
+    if (dist >= 10) {
+      aiLines.push({
+        x1: aiStartX,
+        y1: aiStartY,
+        x2: aiCurrentX,
+        y2: aiCurrentY,
+        color: currentAiBrushColor
+      });
+    }
     redrawAnnotation();
   }
-
-  function startDraw(e) {
-    isDrawing = true;
-    ctx.beginPath();
-    const rect = annotateCanvas.getBoundingClientRect();
-    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-    ctx.moveTo(x * (annotateCanvas.width / rect.width), y * (annotateCanvas.height / rect.height));
-  }
-
-  function drawMove(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
-    const rect = annotateCanvas.getBoundingClientRect();
-    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = '#ff1493';
-    ctx.lineCap = 'round';
-    ctx.lineTo(x * (annotateCanvas.width / rect.width), y * (annotateCanvas.height / rect.height));
-    ctx.stroke();
-  }
-
-  function stopDraw() { isDrawing = false; }
-
-  annotateCanvas.addEventListener('mousedown', startDraw);
-  annotateCanvas.addEventListener('mousemove', drawMove);
-  annotateCanvas.addEventListener('mouseup', stopDraw);
-  annotateCanvas.addEventListener('touchstart', startDraw);
-  annotateCanvas.addEventListener('touchmove', drawMove);
-  annotateCanvas.addEventListener('touchend', stopDraw);
 
   function runAiDetection() {
     const btn = document.getElementById('btn-run-ai');
@@ -2271,6 +2348,20 @@
     else if (el.innerText === '⭐️⭐️') el.innerText = '⭐️';
     else el.innerText = '⭐️⭐️⭐️';
   }
+
+  /* 確保全域事件與畫布於 DOM 載入時正確初始化 */
+  window.addEventListener('DOMContentLoaded', () => {
+    initPreviewCanvas();
+    initAiCanvas();
+    window.addEventListener('mouseup', () => {
+      if (isPreviewDrawing) stopPreviewDraw();
+      if (isAiDrawing) stopAiDraw();
+    });
+    window.addEventListener('touchend', () => {
+      if (isPreviewDrawing) stopPreviewDraw();
+      if (isAiDrawing) stopAiDraw();
+    });
+  });
 </script>
 
 </body>
