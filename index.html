@@ -48,7 +48,7 @@
       gap: clamp(16px, 3vw, 24px);
     }
 
-    /* 頂部三階段導航欄 */
+    /* 頂部全流程導航欄：課前自學 + 課中 4 個環節 */
     .tab-bar {
       display: flex;
       flex-wrap: wrap;
@@ -58,13 +58,13 @@
     }
 
     .tab-btn {
-      flex: 1 1 180px;
-      padding: 12px 10px;
+      flex: 1 1 150px;
+      padding: 12px 8px;
       border: 2px solid transparent;
       border-radius: 12px;
       background: var(--primary-light);
       color: var(--primary-dark);
-      font-size: clamp(13px, 2.8vw, 15px);
+      font-size: clamp(13px, 2.6vw, 15px);
       font-weight: 800;
       cursor: pointer;
       text-align: center;
@@ -140,6 +140,167 @@
       margin: 0;
     }
 
+    /* 影片響應式容器 */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* 觸控著色互動 */
+    .interactive-canvas-box {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      aspect-ratio: 4 / 3;
+      background: #fafafa;
+      border: 2px dashed var(--primary-color);
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      touch-action: manipulation;
+    }
+
+    #shape-svg {
+      width: 100%;
+      height: 100%;
+      user-select: none;
+    }
+
+    .line-interactive {
+      cursor: pointer;
+      stroke-linecap: round;
+      transition: stroke 0.2s ease, stroke-width 0.2s ease;
+    }
+
+    /* 題目選項 */
+    .quiz-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .quiz-card {
+      background: var(--primary-light);
+      border-radius: 12px;
+      padding: clamp(12px, 2.5vw, 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-card p {
+      margin: 0;
+      font-weight: 700;
+      font-size: clamp(14px, 2.8vw, 15px);
+      line-height: 1.4;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .option-chip {
+      background: #fff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(13px, 2.6vw, 14px);
+      cursor: pointer;
+      min-width: 0;
+    }
+
+    .option-chip input {
+      accent-color: var(--accent-color);
+      margin: 0;
+    }
+
+    /* 圖片上載共通樣式 */
+    .upload-box {
+      border: 2px dashed var(--accent-color);
+      border-radius: 14px;
+      background: #fffafb;
+      padding: clamp(16px, 3vw, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .upload-box:active {
+      background: #ffeef2;
+    }
+
+    .upload-icon {
+      font-size: clamp(32px, 6vw, 42px);
+      line-height: 1;
+    }
+
+    .upload-text-main {
+      font-weight: 800;
+      font-size: clamp(15px, 3vw, 17px);
+      color: var(--accent-color);
+    }
+
+    .upload-text-sub {
+      font-size: clamp(12px, 2.5vw, 14px);
+      color: #888;
+    }
+
+    .image-preview-container {
+      width: 100%;
+      max-width: 320px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-reupload {
+      background: transparent;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      border-radius: 16px;
+      padding: 4px 14px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     /* 老師控制台模式 */
     .teacher-control-banner {
       background: #fff3cd;
@@ -167,36 +328,7 @@
       font-size: 13px;
     }
 
-    /* 圖片上載與預覽共通 */
-    .upload-box {
-      border: 2px dashed var(--accent-color);
-      border-radius: 14px;
-      background: #fffafb;
-      padding: clamp(16px, 3vw, 24px);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .upload-icon {
-      font-size: clamp(32px, 6vw, 42px);
-      line-height: 1;
-    }
-
-    .upload-text-main {
-      font-weight: 800;
-      font-size: clamp(15px, 3vw, 17px);
-      color: var(--accent-color);
-    }
-
-    .upload-text-sub {
-      font-size: clamp(12px, 2.5vw, 14px);
-      color: #888;
-    }
-
+    /* AI 辨識掃描舞台 */
     .ai-scan-stage {
       position: relative;
       width: 100%;
@@ -309,7 +441,7 @@
       height: 100%;
     }
 
-    /* Padlet 班級成果牆與互評區 */
+    /* 成果牆與互評區 */
     .padlet-wall {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -362,7 +494,6 @@
       outline: none;
     }
 
-    /* 總結與評估題 */
     .summary-box {
       background: linear-gradient(135deg, #fff0f3, #ffe4e8);
       border: 2px dashed var(--accent-color);
@@ -385,39 +516,143 @@
       color: #888;
       line-height: 1.4;
     }
+
+    .btn-submit {
+      width: 100%;
+      max-width: 360px;
+      margin: 10px auto 0;
+      background: linear-gradient(135deg, #ff8da1, #ff6b8b);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: clamp(12px, 2.5vw, 16px) 24px;
+      font-size: clamp(15px, 3vw, 18px);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255, 107, 139, 0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- 頁面頂部三階段導航 -->
+  <!-- 頁面頂部完整五大頁籤導航 -->
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('act1-ai-tab', this)">1. AI 辨識與實測</button>
+    <button class="tab-btn active" onclick="switchTab('preview-tab', this)">📺 課前自學預習</button>
+    <button class="tab-btn" onclick="switchTab('act1-ai-tab', this)">1. 課中人機辨識</button>
     <button class="tab-btn" onclick="switchTab('act2-draw-tab', this)">2. 尺規作圖口訣</button>
-    <button class="tab-btn" onclick="switchTab('act3-share-tab', this)">3. 成果牆與同儕互評</button>
-    <button class="tab-btn" onclick="switchTab('act4-summary-tab', this)">4. 總結檢測與資訊安全</button>
+    <button class="tab-btn" onclick="switchTab('act3-share-tab', this)">3. 成果牆與互評</button>
+    <button class="tab-btn" onclick="switchTab('act4-summary-tab', this)">4. 總結檢測與安全</button>
   </div>
 
-  <!-- 學生組別資料欄 -->
+  <!-- 學生基本資料欄 -->
   <div class="student-bar">
     <div class="input-field">
       <span>班別：3</span>
       <input type="text" placeholder="甲/乙/丙" aria-label="班別">
     </div>
     <div class="input-field">
-      <span>組別：第</span>
-      <input type="number" placeholder="組號" style="width: 50px;" aria-label="組別">
-      <span>組</span>
+      <span>姓名/組別：</span>
+      <input type="text" placeholder="姓名或組號" aria-label="姓名或組號">
     </div>
     <div class="input-field">
-      <span>組員名冊：</span>
-      <input type="text" placeholder="輸入組員姓名" aria-label="組員">
+      <span>學號：</span>
+      <input type="number" placeholder="號數" aria-label="學號">
     </div>
   </div>
 
-  <!-- ==================== 環節 1：AI 圖像辨識與實測驗證 ==================== -->
-  <div id="act1-ai-tab" class="tab-content active">
-    <!-- 老師廣播控制解鎖 -->
+  <!-- ==================== 頁籤 0：課前自學預習 ==================== -->
+  <div id="preview-tab" class="tab-content active">
+    <!-- 任務一：教育多媒體影片嵌入 -->
+    <section class="section-card">
+      <h2 class="section-title"><span>📺</span> 任務一：觀看教育多媒體（EMM）微課</h2>
+      <p style="margin: 0; font-size: 14px; color: #666;">觀看核心精華（07:15 - 12:45），仔細觀察平行線的特徵：</p>
+      <div class="video-wrapper">
+        <iframe 
+          id="kaltura_player" 
+          src="https://cdnapisec.kaltura.com/p/2621712/sp/262171200/embedIframeJs/uiconf_id/46688843/partner_id/2621712?iframeembed=true&playerId=kaltura_player&entry_id=0_8j2adg5o&flashvars[streamerType]=auto&amp;flashvars[localizationCode]=zh_Hant&amp;flashvars[sideBarContainer.plugin]=true&amp;flashvars[sideBarContainer.position]=left&amp;flashvars[sideBarContainer.clickToClose]=true&amp;flashvars[chapters.plugin]=true&amp;flashvars[chapters.layout]=vertical&amp;flashvars[chapters.thumbnailRotator]=false&amp;flashvars[streamSelector.plugin]=true&amp;flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&amp;flashvars[dualScreen.plugin]=true&amp;flashvars[hotspots.plugin]=1&amp;flashvars[mediaProxy.mediaPlayFrom]=435&amp;flashvars[mediaProxy.mediaPlayTo]=765&amp;flashvars[Kaltura.addCrossoriginToIframe]=true&amp;&wid=1_byujqion" 
+          allowfullscreen 
+          webkitallowfullscreen 
+          mozAllowFullScreen 
+          allow="autoplay *; fullscreen *; encrypted-media *" 
+          sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" 
+          title="平行和垂直 (英文字幕可供選擇)">
+        </iframe>
+      </div>
+    </section>
+
+    <!-- 任務二：著色預習 -->
+    <section class="section-card">
+      <h2 class="section-title"><span>🎨</span> 任務二：動手點點・找出一組平行對邊</h2>
+      <p style="margin: 0; font-size: 14px; color: #666;">點擊長方形上下兩條邊，把它們塗成亮粉紅色：</p>
+      <div class="interactive-canvas-box">
+        <svg id="shape-svg" viewBox="0 0 400 300">
+          <rect x="50" y="40" width="300" height="220" rx="10" fill="#ffffff" stroke="#f0f0f0" stroke-width="2"/>
+          <text x="200" y="155" text-anchor="middle" fill="#d85d75" font-size="16" font-weight="bold">點擊四周線條塗色</text>
+          <line id="edge-top" class="line-interactive" x1="60" y1="50" x2="340" y2="50" stroke="#b0c4de" stroke-width="12"/>
+          <line id="edge-bottom" class="line-interactive" x1="60" y1="250" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          <line id="edge-left" class="line-interactive" x1="60" y1="50" x2="60" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          <line id="edge-right" class="line-interactive" x1="340" y1="50" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 任務三：概念問答 -->
+    <section class="section-card">
+      <h2 class="section-title"><span>💡</span> 任務三：觀念小偵探</h2>
+      <div class="quiz-group">
+        <div class="quiz-card">
+          <p>1. 影片中的平行線有哪些重要特點？（可選多項）</p>
+          <div class="option-grid">
+            <label class="option-chip"><input type="checkbox" name="q1"> 永遠不相交</label>
+            <label class="option-chip"><input type="checkbox" name="q1"> 距離處處相等</label>
+            <label class="option-chip"><input type="checkbox" name="q1"> 會交叉成十字</label>
+          </div>
+        </div>
+        <div class="quiz-card">
+          <p>2. 下列哪一個生活例子代表「平行線」？</p>
+          <div class="option-grid">
+            <label class="option-chip"><input type="radio" name="q2"> 斑馬線白條</label>
+            <label class="option-chip"><input type="radio" name="q2"> 剪刀刀口</label>
+            <label class="option-chip"><input type="radio" name="q2"> 圓形時鐘指針</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 任務四：家中的平行線拍照上載 -->
+    <section class="section-card">
+      <h2 class="section-title"><span>📷</span> 任務四：家中的平行線特工行動</h2>
+      <input type="file" id="preview-file-input" accept="image/*" capture="environment" style="display: none;" onchange="handlePreviewUpload(event)">
+
+      <div class="upload-box" onclick="document.getElementById('preview-file-input').click()">
+        <span class="upload-icon">📸</span>
+        <span class="upload-text-main">拍照或上載我找到的「平行線」物品</span>
+        <span class="upload-text-sub">（拍下家中的：百葉簾 / 門框 / 間尺等）</span>
+
+        <div class="image-preview-container" id="preview-image-wrap">
+          <img id="preview-img-display" src="" alt="預覽照片">
+          <button type="button" class="btn-reupload" onclick="event.stopPropagation(); document.getElementById('preview-file-input').click()">🔄 更換照片</button>
+        </div>
+      </div>
+
+      <div class="security-badge">
+        <span>🛡️</span>
+        <span><strong>科技安全提醒：</strong>拍照時切勿拍攝家人面容或個人私隱資料。</span>
+      </div>
+    </section>
+
+    <button class="btn-submit" type="button" onclick="alert('🌟 預習完成！明天上課時，老師會開啟「人機協作」功能，讓 AI 幫大家分析相片中的平行線！')">
+      <span>✓</span> 完成並提交預習
+    </button>
+  </div>
+
+  <!-- ==================== 頁籤 1：課中人機協同辨識 ==================== -->
+  <div id="act1-ai-tab" class="tab-content">
     <div class="teacher-control-banner">
       <span id="teacher-status-text">🔒 課堂模式：等待老師在主機廣播開啟「人機協作」...</span>
       <button type="button" class="teacher-btn-unlock" onclick="toggleTeacherControl()">👨‍🏫 老師解鎖 / 開啟</button>
@@ -478,7 +713,7 @@
     </section>
   </div>
 
-  <!-- ==================== 環節 2：尺規作圖口訣（一靠、二貼、三推、四畫） ==================== -->
+  <!-- ==================== 頁籤 2：尺規作圖口訣 ==================== -->
   <div id="act2-draw-tab" class="tab-content">
     <section class="section-card">
       <h2 class="section-title"><span>📐</span> 活動二：動手畫平行線 —— 四步口訣互動模擬</h2>
@@ -486,7 +721,6 @@
         點擊下方 4 個步驟按鈕，觀看三角尺與直尺的配合動畫，然後在方格紙上跟著畫：
       </p>
 
-      <!-- 4 步口訣切換按鈕 -->
       <div class="drawing-steps-grid">
         <div class="step-card active" id="step-btn-1" onclick="setDrawingStep(1)">
           <h4>1. 靠 📐</h4>
@@ -506,10 +740,8 @@
         </div>
       </div>
 
-      <!-- 動態幾何模擬畫布 -->
       <div class="drawing-board-container">
         <svg id="drawing-svg" viewBox="0 0 400 240">
-          <!-- 背景方格網 -->
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
               <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f0f0f0" stroke-width="1"/>
@@ -517,21 +749,17 @@
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
 
-          <!-- 原基準直線 -->
           <line x1="40" y1="180" x2="360" y2="180" stroke="#444" stroke-width="4" stroke-linecap="round"/>
           <text x="365" y="185" font-size="12" fill="#666">基準線 L1</text>
 
-          <!-- 步驟 4 出現的平行新線 -->
           <line id="svg-new-line" x1="40" y1="80" x2="360" y2="80" stroke="#ff1493" stroke-width="4" stroke-linecap="round" stroke-dasharray="6,6" style="display:none;"/>
           <text id="svg-new-text" x="365" y="85" font-size="12" fill="#ff1493" style="display:none;">平行線 L2</text>
 
-          <!-- 模擬直尺 (固定於左側) -->
           <g id="svg-ruler" style="display:none; transition: all 0.3s ease;">
             <rect x="50" y="40" width="35" height="170" fill="#e0e8f5" stroke="#7a9ecc" stroke-width="2" rx="4"/>
             <text x="67" y="130" font-size="11" fill="#4a70a8" text-anchor="middle" transform="rotate(-90 67 130)">直尺 (固定不動)</text>
           </g>
 
-          <!-- 模擬三角尺 (可推動滑動) -->
           <g id="svg-triangle" style="transition: all 0.4s ease; transform: translate(85px, 95px);">
             <polygon points="0,85 140,85 0,0" fill="rgba(255, 141, 161, 0.4)" stroke="#ff6b8b" stroke-width="2"/>
             <text x="35" y="70" font-size="11" fill="#d85d75">三角尺</text>
@@ -545,7 +773,7 @@
     </section>
   </div>
 
-  <!-- ==================== 環節 3：數字成果牆與同儕互評（Padlet 模式） ==================== -->
+  <!-- ==================== 頁籤 3：成果牆與同儕互評 ==================== -->
   <div id="act3-share-tab" class="tab-content">
     <section class="section-card">
       <h2 class="section-title"><span>🌟</span> 活動三：數字成果牆 —— 班級發布與互評</h2>
@@ -554,7 +782,6 @@
       </p>
 
       <div class="padlet-wall">
-        <!-- 第 1 組成果卡 -->
         <div class="group-post-card">
           <div class="group-post-header">
             <span>第 1 組：窗框平行線</span>
@@ -572,7 +799,6 @@
           </div>
         </div>
 
-        <!-- 第 2 組成果卡 -->
         <div class="group-post-card">
           <div class="group-post-header">
             <span>第 2 組：黑板上下邊</span>
@@ -590,7 +816,6 @@
           </div>
         </div>
 
-        <!-- 第 3 組成果卡 -->
         <div class="group-post-card">
           <div class="group-post-header">
             <span>第 3 組：壁報欄外框</span>
@@ -611,7 +836,7 @@
     </section>
   </div>
 
-  <!-- ==================== 環節 4：總結檢測與科技安全 ==================== -->
+  <!-- ==================== 頁籤 4：總結檢測與安全 ==================== -->
   <div id="act4-summary-tab" class="tab-content">
     <section class="section-card">
       <h2 class="section-title"><span>🎯</span> 活動四：課堂快速通關題</h2>
@@ -623,7 +848,6 @@
         <div>3. <strong>推尺技巧：</strong> <strong>一靠、二貼、三推、四畫</strong>！</div>
       </div>
 
-      <!-- 快速 1 分鐘隨堂即時檢測 -->
       <div style="background: var(--primary-light); padding: 14px; border-radius: 12px;">
         <p style="margin: 0 0 10px; font-weight: bold;">【通關檢測】小明利用直尺推動三角尺畫出兩條線，左邊相距 4cm，右邊相距 3cm。這兩條線互相平行嗎？</p>
         <div style="display: flex; gap: 14px;">
@@ -632,7 +856,6 @@
         </div>
       </div>
 
-      <!-- 科技安全與國家安全指引 -->
       <div class="security-badge">
         <span>🛡️</span>
         <div>
@@ -650,12 +873,46 @@
 </div>
 
 <script>
-  // 頂部 4 個大頁籤切換
+  // 頁面頂部 5 個大頁籤切換
   function switchTab(tabId, btnElement) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     btnElement.classList.add('active');
+  }
+
+  // 課前著色點擊互動
+  const lines = [
+    document.getElementById('edge-top'),
+    document.getElementById('edge-bottom'),
+    document.getElementById('edge-left'),
+    document.getElementById('edge-right')
+  ];
+  const pinkColor = '#ff1493';
+  const defaultColor = '#b0c4de';
+
+  function toggleLine(line) {
+    const isPink = line.getAttribute('stroke') === pinkColor;
+    line.setAttribute('stroke', isPink ? defaultColor : pinkColor);
+    line.setAttribute('stroke-width', isPink ? '12' : '16');
+  }
+
+  lines.forEach(line => {
+    line.addEventListener('click', () => toggleLine(line));
+    line.addEventListener('touchend', (e) => { e.preventDefault(); toggleLine(line); });
+  });
+
+  // 課前上載預覽
+  function handlePreviewUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById('preview-img-display').src = e.target.result;
+        document.getElementById('preview-image-wrap').style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   // 老師控制台模式開關
@@ -680,7 +937,7 @@
     }
   }
 
-  // AI 圖片上傳預覽
+  // 課中 AI 圖片上傳預覽
   function handleAiImageUpload(event) {
     const file = event.target.files[0];
     if (file) {
