@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>滬江小學 - 小三數學科：平行線互動教學系統</title>
+  <title>滬江小學 - 小三數學科：3上B 第15課 平行線互動教學平台</title>
   <style>
     :root {
       --primary-color: #ff8da1;
@@ -36,7 +36,7 @@
 
     .container {
       width: 100%;
-      max-width: 960px;
+      max-width: 980px;
       background: var(--card-bg);
       border-radius: clamp(16px, 3vw, 24px);
       padding: clamp(16px, 4vw, 32px);
@@ -47,7 +47,7 @@
       gap: clamp(16px, 3vw, 24px);
     }
 
-    /* 身份切換工具列 */
+    /* 頂部身份狀態與切換 */
     .role-header-bar {
       display: flex;
       justify-content: space-between;
@@ -86,7 +86,6 @@
       color: #fff;
     }
 
-    /* 廣播推屏橫額 */
     .sync-banner {
       background: #e8f4fd;
       border: 1.5px solid #b6d4fe;
@@ -100,7 +99,7 @@
       gap: 8px;
     }
 
-    /* 教師控制台樣式 */
+    /* 教師控制台 */
     .teacher-dashboard {
       background: #fff9fa;
       border: 2px solid var(--accent-color);
@@ -121,7 +120,7 @@
       background: #fff;
       border: 2px solid var(--border-color);
       border-radius: 12px;
-      padding: 12px 8px;
+      padding: 10px 8px;
       font-size: 13px;
       font-weight: bold;
       color: var(--text-color);
@@ -142,6 +141,7 @@
       border-collapse: collapse;
       font-size: 13px;
       text-align: center;
+      background: #fff;
     }
 
     .preview-monitor-table th, .preview-monitor-table td {
@@ -154,7 +154,38 @@
       color: var(--primary-dark);
     }
 
-    /* 導航分頁列 */
+    /* 學生基本資訊欄（支援二人一組） */
+    .student-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--primary-light);
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+
+    .input-field {
+      flex: 1 1 calc(25% - 10px);
+      min-width: 130px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .input-field input {
+      flex: 1;
+      min-width: 0;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 13px;
+      outline: none;
+      background: #fff;
+    }
+
+    /* 導航 Tab 列 */
     .tab-bar {
       display: flex;
       flex-wrap: wrap;
@@ -201,38 +232,6 @@
       display: flex;
     }
 
-    /* 學生基本資訊欄 */
-    .student-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      background: var(--primary-light);
-      padding: 10px 14px;
-      border-radius: 14px;
-    }
-
-    .input-field {
-      flex: 1 1 calc(33.333% - 12px);
-      min-width: 130px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .input-field input {
-      flex: 1;
-      min-width: 0;
-      border: 1.5px solid var(--border-color);
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-size: 13px;
-      outline: none;
-      background: #fff;
-    }
-
-    /* 卡片組件 */
     .section-card {
       background: #fff;
       border: 2px solid var(--border-color);
@@ -336,7 +335,31 @@
       transition: stroke 0.2s ease, stroke-width 0.2s ease;
     }
 
-    /* 即時訂正回饋面板 */
+    /* 任務一：學生相片動態標劃畫布 */
+    .photo-annotate-box {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 4 / 3;
+      margin: 0 auto;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #photo-annotate-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* 回饋與解釋面板 */
     .feedback-box {
       border-radius: 12px;
       padding: 12px 14px;
@@ -450,10 +473,12 @@
       height: 100%;
     }
 
+    /* 成果牆 */
     .padlet-wall {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
     }
 
     .group-post-card {
@@ -478,16 +503,147 @@
       color: #888;
       line-height: 1.4;
     }
+
+    /* 教師密碼認證彈窗與浮動通知樣式 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 380px;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(216, 93, 117, 0.25);
+      border: 2px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: center;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-card h3 {
+      margin: 0;
+      color: var(--primary-dark);
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .modal-card p {
+      margin: 0;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .modal-pwd-input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 18px;
+      letter-spacing: 4px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .modal-pwd-input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .modal-error-msg {
+      color: #dc3545;
+      font-size: 12.5px;
+      font-weight: bold;
+      display: none;
+      margin: 0;
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .modal-btn-cancel {
+      flex: 1;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: bold;
+      color: #666;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .modal-btn-confirm {
+      flex: 1.4;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: bold;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(255, 107, 139, 0.25);
+    }
+
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333333;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .toast-box.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- 頂部身份狀態與切換開關 -->
+  <!-- 頂部身份切換工具列 -->
   <header class="role-header-bar">
     <div class="role-badge" id="role-display">
       <span>🎓</span>
-      <span id="role-text">目前身份：【學生端】自主模式</span>
+      <span id="role-text">目前身份：【學生端】一人一機 / 二人協作模式</span>
     </div>
     <button type="button" class="btn-switch-role" onclick="toggleSystemRole()">
       🔄 切換為【教師控制主機】
@@ -500,110 +656,111 @@
     <span id="sync-status-msg">教師廣播連線中：目前課堂進度為【課前自學預習】</span>
   </div>
 
-  <!-- ==================== 教師專屬管理面板 (預設隱藏，切換為教師時顯示) ==================== -->
+  <!-- ==================== 教師專屬管理面板 ==================== -->
   <section class="teacher-dashboard" id="teacher-panel" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #ffd1dc; padding-bottom: 10px;">
       <h3 style="margin: 0; color: var(--primary-dark); font-size: 17px;">👨‍🏫 教師中控廣播台：全班畫面推屏管制</h3>
-      <span style="font-size: 13px; color: #666;">（點選按鈕，全班學生螢幕將強制切換至該環節）</span>
+      <span style="font-size: 13px; color: #666;">（點擊按鈕，全班學生螢幕將強制同步切換至該環節）</span>
     </div>
 
-    <!-- 教師全班推屏控制按鈕列 -->
+    <!-- 教師全班推屏廣播按鈕列 -->
     <div class="broadcast-control-box">
       <button type="button" class="btn-broadcast current-stage" id="bc-tab-preview" onclick="teacherBroadcastTab('preview-tab')">
-        1. 廣播：課前預習
+        預習. 課前預習自學檢視
       </button>
       <button type="button" class="btn-broadcast" id="bc-tab-act1" onclick="teacherBroadcastTab('act1-ai-tab')">
-        2. 廣播：AI 實測辨識
+        任務一. 課室實測與 AI互動
       </button>
       <button type="button" class="btn-broadcast" id="bc-tab-act2" onclick="teacherBroadcastTab('act2-draw-tab')">
-        3. 廣播：尺規作圖
+        任務二. 尺規模擬器
       </button>
       <button type="button" class="btn-broadcast" id="bc-tab-act3" onclick="teacherBroadcastTab('act3-share-tab')">
-        4. 廣播：繪圖成果牆
+        任務三. 合作街道圖發布
       </button>
       <button type="button" class="btn-broadcast" id="bc-tab-act4" onclick="teacherBroadcastTab('act4-summary-tab')">
-        5. 廣播：總結評估
+        任務四. 平行線通關測試
       </button>
     </div>
 
-    <!-- 教師檢視學生預習即時儀表板 -->
-    <div style="margin-top: 6px;">
-      <h4 style="margin: 0 0 8px; color: var(--primary-dark); font-size: 14px;">📊 全班預習與活動進度即時監控：</h4>
+    <!-- 教師全班預習即時監控儀表板 -->
+    <div>
+      <h4 style="margin: 0 0 8px; color: var(--primary-dark); font-size: 14px;">📊 全班課前 4 個任務成果即時監控：</h4>
       <table class="preview-monitor-table">
         <thead>
           <tr>
-            <th>學號</th>
-            <th>學生姓名</th>
-            <th>預習影片</th>
-            <th>平行線標色</th>
+            <th>學號/組別</th>
+            <th>學生姓名 / 組員</th>
+            <th>微課影片</th>
+            <th>長方形標色</th>
             <th>概念題 1</th>
             <th>概念題 2</th>
-            <th>實物上載</th>
+            <th>家中實物照片</th>
           </tr>
         </thead>
         <tbody id="student-monitor-body">
           <tr>
-            <td>01</td>
-            <td>陳小明</td>
+            <td>3A-01</td>
+            <td>陳小明 & 黃大仙</td>
             <td><span style="color:#28a745;">✓ 已觀看</span></td>
-            <td><span style="color:#28a745;">✓ 成功配對</span></td>
+            <td><span style="color:#28a745;">✓ 兩組配對成功</span></td>
             <td><span style="color:#28a745;">✓ 答對</span></td>
             <td><span style="color:#28a745;">✓ 答對</span></td>
-            <td><span style="color:#28a745;">📷 已上傳(筆袋)</span></td>
+            <td><span style="color:#28a745;">📷 已上傳 (百葉簾)</span></td>
           </tr>
           <tr>
-            <td>02</td>
-            <td>李美美</td>
+            <td>3A-02</td>
+            <td>李美美 & 張晴晴</td>
             <td><span style="color:#28a745;">✓ 已觀看</span></td>
-            <td><span style="color:#28a745;">✓ 成功配對</span></td>
-            <td><span style="color:#dc3545;">✕ 曾答錯(已訂正)</span></td>
+            <td><span style="color:#28a745;">✓ 兩組配對成功</span></td>
+            <td><span style="color:#dc3545;">✕ 曾答錯 (已閱解釋)</span></td>
             <td><span style="color:#28a745;">✓ 答對</span></td>
-            <td><span style="color:#28a745;">📷 已上傳(窗簾)</span></td>
+            <td><span style="color:#28a745;">📷 已上傳 (門框)</span></td>
           </tr>
           <tr id="current-user-row">
-            <td>03</td>
-            <td id="table-my-name">本機學生</td>
-            <td id="table-status-video"><span style="color:#888;">觀看中</span></td>
-            <td id="table-status-canvas"><span style="color:#888;">未完成</span></td>
+            <td>本機</td>
+            <td id="table-my-name">當前學生</td>
+            <td id="table-status-video"><span style="color:#28a745;">✓ 已載入</span></td>
+            <td id="table-status-canvas"><span style="color:#888;">未核對</span></td>
             <td id="table-status-q1"><span style="color:#888;">未作答</span></td>
             <td id="table-status-q2"><span style="color:#888;">未作答</span></td>
-            <td id="table-status-upload"><span style="color:#888;">未上傳</span></td>
+            <td id="table-status-upload"><span style="color:#888;">未上載</span></td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- 學生個人資訊登入欄 -->
+  <!-- 學生個人 / 雙人小組資訊登入欄 -->
   <div class="student-bar">
     <div class="input-field">
       <span>班別：3</span>
       <input type="text" placeholder="A/B/C/D" aria-label="班別">
     </div>
     <div class="input-field">
-      <span>學生姓名：</span>
-      <input type="text" id="student-name-field" placeholder="請輸入姓名" oninput="updateStudentName(this.value)" aria-label="姓名">
+      <span>組員 A：</span>
+      <input type="text" id="student-name-a" placeholder="輸入姓名" oninput="updateStudentHeader()" aria-label="觀察員姓名">
     </div>
     <div class="input-field">
-      <span>學號：</span>
-      <input type="number" placeholder="號數" aria-label="學號">
-    </div>
+      <span>組員 B：</span>
+      <input type="text" id="student-name-b" placeholder="輸入姓名" oninput="updateStudentHeader()" aria-label="互動員姓名">
+    </div>    
   </div>
 
-  <!-- 五大學習關卡 -->
+  <!-- 五大關卡導航 Tab 列 -->
   <nav class="tab-bar">
     <button class="tab-btn active" id="tab-btn-preview" onclick="studentSwitchTab('preview-tab', this)">📺 課前自學預習</button>
-    <button class="tab-btn locked" id="tab-btn-act1" onclick="studentSwitchTab('act1-ai-tab', this)">1. 個人 AI 辨識 🔒</button>
-    <button class="tab-btn locked" id="tab-btn-act2" onclick="studentSwitchTab('act2-draw-tab', this)">2. 尺規推線模擬教學 🔒</button>
-    <button class="tab-btn locked" id="tab-btn-act3" onclick="studentSwitchTab('act3-share-tab', this)">3. 個人繪畫成果牆 🔒</button>
-    <button class="tab-btn locked" id="tab-btn-act4" onclick="studentSwitchTab('act4-summary-tab', this)">4. 總結檢測與評估 🔒</button>
+    <button class="tab-btn locked" id="tab-btn-act1" onclick="studentSwitchTab('act1-ai-tab', this)">任務一：AI 實測 🔒</button>
+    <button class="tab-btn locked" id="tab-btn-act2" onclick="studentSwitchTab('act2-draw-tab', this)">任務二：尺規模擬 🔒</button>
+    <button class="tab-btn locked" id="tab-btn-act3" onclick="studentSwitchTab('act3-share-tab', this)">任務三：合作街道圖 🔒</button>
+    <button class="tab-btn locked" id="tab-btn-act4" onclick="studentSwitchTab('act4-summary-tab', this)">任務四：通關測試 🔒</button>
   </nav>
 
-  <!-- ==================== 關卡 0：課前自學預習 ==================== -->
+  <!-- ==================== 關卡 0：課前自學預習（4 個任務） ==================== -->
   <div id="preview-tab" class="tab-content active">
+    <!-- 任務 1：觀看微課 -->
     <section class="section-card">
-      <h2 class="section-title"><span>📺</span> 任務一：觀看教育多媒體片段</h2>
-      <p style="margin: 0; font-size: 14px; color: #666;">觀看核心片段（07:15 - 12:45），仔細觀察平行線的特徵：</p>
+      <h2 class="section-title"><span>📺</span> 預習任務 1：觀看影片</h2>
+      <p style="margin: 0; font-size: 14px; color: #666;">仔細觀察鐵軌與斑馬線的特徵：</p>
       <div class="video-wrapper">
         <iframe 
           id="kaltura_player" 
@@ -618,30 +775,30 @@
       </div>
     </section>
 
-    <!-- 任務二：自由選色塗畫平行線並核對答案 -->
+    <!-- 任務 2：長方形自由塗色配對（移除上下左右字樣提示） -->
     <section class="section-card">
-      <h2 class="section-title"><span>🎨</span> 任務二：自主探索・找出長方形的兩組平行線</h2>
+      <h2 class="section-title"><span>🎨</span> 預習任務 2：找出長方形的兩組平行線</h2>
       <p style="margin: 0; font-size: 14px; color: #666;">
-        長方形有兩組不同的平行線。請選擇顏色筆，把互相平行的線段塗上相同的顏色，完成後按「核對答案」：
+        請選取顏色筆，把互相平行的線段塗上相同顏色。完成後按「核對答案」：
       </p>
 
       <div class="color-picker-bar">
-        <span>選擇畫筆：</span>
+        <span>畫筆選擇：</span>
         <button type="button" class="brush-btn active" id="brush-pink" onclick="selectBrush('#ff1493', this)">
-          <span class="color-circle" style="background: #ff1493;"></span> 第一組 (粉紅)
+          <span class="color-circle" style="background: #ff1493;"></span> 第一組顏色 (粉紅)
         </button>
         <button type="button" class="brush-btn" id="brush-blue" onclick="selectBrush('#00b4d8', this)">
-          <span class="color-circle" style="background: #00b4d8;"></span> 第二組 (天藍)
+          <span class="color-circle" style="background: #00b4d8;"></span> 第二組顏色 (天藍)
         </button>
         <button type="button" class="brush-btn" id="brush-erase" onclick="selectBrush('#b0c4de', this)">
-          <span class="color-circle" style="background: #b0c4de;"></span> 橡皮擦
+          <span class="color-circle" style="background: #b0c4de;"></span> 橡皮擦 (擦除)
         </button>
       </div>
 
       <div class="interactive-canvas-box">
         <svg id="shape-svg" viewBox="0 0 400 300">
           <rect x="50" y="40" width="300" height="220" rx="10" fill="#ffffff" stroke="#f0f0f0" stroke-width="2"/>
-          <text id="canvas-center-hint" x="200" y="155" text-anchor="middle" fill="#999" font-size="14" font-weight="bold">點擊線段著色</text>
+          <text id="canvas-center-hint" x="200" y="155" text-anchor="middle" fill="#999" font-size="14" font-weight="bold">點擊四周線條著色</text>
           
           <line id="line-top" class="line-interactive" data-edge="top" x1="60" y1="50" x2="340" y2="50" stroke="#b0c4de" stroke-width="12"/>
           <line id="line-bottom" class="line-interactive" data-edge="bottom" x1="60" y1="250" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
@@ -656,65 +813,65 @@
 
       <div id="lines-feedback" class="feedback-box">
         <div id="lines-feedback-text"></div>
-        <button type="button" class="btn-secondary" id="btn-lines-explain" onclick="toggleExplanation('lines-explain-box')">📖 詳細解釋</button>
+        <button type="button" class="btn-secondary" id="btn-lines-explain" onclick="toggleExplanation('lines-explain-box')">📖 申請詳細幾何解釋</button>
         <div id="lines-explain-box" class="explanation-dialog">
           <strong>💡 為什麼長方形有兩組平行線？</strong><br>
-          1. <strong>第一組（上下對邊）：</strong> 兩條線段向左右無限延長，彼此距離相等，永不相交！<br>
-          2. <strong>第二組（左右對邊）：</strong> 兩條線段向上下無限延長，彼此距離相等，同樣永不相交！<br>
-          3. 而且鄰邊形成的角是直角，因此不是平行線。
+          1. <strong>第一組（上下兩條對邊）：</strong> 兩條直線向左右兩端無限延長，彼此距離相等，永不相交！<br>
+          2. <strong>第二組（左右兩條對邊）：</strong> 兩條直線向上下無限延長，彼此距離相等，同樣永不相交！<br>
+          3. 長方形的鄰邊在頂點形成直角，長方形的鄰邊是互相垂直而非平行。
         </div>
       </div>
     </section>
 
-    <!-- 任務三：概念即時核對與解釋 -->
+    <!-- 任務 3：概念小偵探（即時核對與申請解釋） -->
     <section class="section-card">
-      <h2 class="section-title"><span>💡</span> 任務三：平行線小偵探</h2>
+      <h2 class="section-title"><span>💡</span> 預習任務 3：概念小偵探</h2>
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <div style="background: var(--primary-light); padding: 12px; border-radius: 12px;">
-          <p style="margin: 0 0 8px; font-weight: bold;">1. 如果兩條線段「互相平行」，最重要的特徵是什麼？</p>
+          <p style="margin: 0 0 8px; font-weight: bold;">1. 如果兩條直線「互相平行」，最重要的特徵是什麼？</p>
           <div class="option-grid">
-            <button type="button" class="option-btn" onclick="checkQuiz1(false, this)">A. 兩條線長度相同</button>
-            <button type="button" class="option-btn" onclick="checkQuiz1(true, this)">B. 兩條線段無限延長都永不相交</button>
-            <button type="button" class="option-btn" onclick="checkQuiz1(false, this)">C. 兩條線段可以交叉成十字架形狀</button>
+            <button type="button" class="option-btn" onclick="checkQuiz1(false, this)">A. 兩條線段的長度必須相同</button>
+            <button type="button" class="option-btn" onclick="checkQuiz1(true, this)">B. 兩條線段無限延長永不相交</button>
+            <button type="button" class="option-btn" onclick="checkQuiz1(false, this)">C. 兩條線段交叉成直角</button>
           </div>
           <div id="quiz1-feedback" class="feedback-box">
             <div id="quiz1-feedback-text"></div>
-            <button type="button" class="btn-secondary" onclick="toggleExplanation('quiz1-explain-box')">📖 有請AI小博士解釋</button>
+            <button type="button" class="btn-secondary" onclick="toggleExplanation('quiz1-explain-box')">📖 申請 AI 老師解釋</button>
             <div id="quiz1-explain-box" class="explanation-dialog">
-              <strong>💡 概念解釋：</strong><br>
-              平行線關鍵在於「永不相交、距離永遠相等」。長度不一定要一樣（例如鐵路鋼軌一長一短，只要永不相交依然是平行線）。
+              <strong>💡 觀念解析：</strong><br>
+              平行線的關鍵在於「永不相交、距離相等」。線條的長度不一定要一樣長！
             </div>
           </div>
         </div>
 
         <div style="background: var(--primary-light); padding: 12px; border-radius: 12px;">
-          <p style="margin: 0 0 8px; font-weight: bold;">2. 下列哪種物品有互相平行的線段？</p>
+          <p style="margin: 0 0 8px; font-weight: bold;">2. 下列哪項物品中有平行線？</p>
           <div class="option-grid">
-            <button type="button" class="option-btn" onclick="checkQuiz2(true, this)">A. 馬路斑馬線的黑白條紋</button>
+            <button type="button" class="option-btn" onclick="checkQuiz2(true, this)">A. 斑馬線的黑白色條紋</button>
             <button type="button" class="option-btn" onclick="checkQuiz2(false, this)">B. 張開的剪刀</button>
             <button type="button" class="option-btn" onclick="checkQuiz2(false, this)">C. 時鐘上的時針和分針</button>
           </div>
           <div id="quiz2-feedback" class="feedback-box">
             <div id="quiz2-feedback-text"></div>
-            <button type="button" class="btn-secondary" onclick="toggleExplanation('quiz2-explain-box')">📖 有請AI小博士解釋</button>
+            <button type="button" class="btn-secondary" onclick="toggleExplanation('quiz2-explain-box')">📖 申請 AI 老師解釋</button>
             <div id="quiz2-explain-box" class="explanation-dialog">
-              <strong>💡 生活實例解析：</strong><br>
-              斑馬線黑白色的條紋朝左右方向延伸，距離永遠相同而且永不相交；而剪刀與時鐘指針會相交，會相交的線都不是平行線。
+              <strong>💡 生活實例解釋：</strong><br>
+              斑馬線的條紋距離相等且永不相交；但剪刀與時鐘指針在中心相交，會相交的就不是平行線。
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 任務四：家中的平行線拍照上載 -->
+    <!-- 任務 4：拍下家中有平行線的物件照片 -->
     <section class="section-card">
-      <h2 class="section-title"><span>📷</span> 任務四：搜尋家中的平行線特工行動</h2>
+      <h2 class="section-title"><span>📷</span> 預習任務 4：拍下家中有平行線的物件照片</h2>
       <input type="file" id="preview-file-input" accept="image/*" capture="environment" style="display: none;" onchange="handlePreviewUpload(event)">
 
       <div class="upload-box" onclick="document.getElementById('preview-file-input').click()">
         <span style="font-size: 36px;">📸</span>
-        <span style="font-weight: 800; color: var(--accent-color);">拍照上載我在家中找到的「平行線」</span>
-        <span style="font-size: 13px; color: #888;">（拍下百葉簾 / 門框 / 間尺等）</span>
+        <span style="font-weight: 800; color: var(--accent-color);">點擊拍照上載家中找到的「平行線」</span>
+        <span style="font-size: 13px; color: #888;">（拍下物件後，觀察物件兩邊距離）</span>
 
         <div class="image-preview-container" id="preview-image-wrap">
           <img id="preview-img-display" src="" alt="預覽照片">
@@ -729,68 +886,74 @@
     </section>
   </div>
 
-  <!-- ==================== 關卡 1： AI 圖像辨識與實測 ==================== -->
+  <!-- ==================== 關卡 1：任務一 課室實測與 AI ==================== -->
   <div id="act1-ai-tab" class="tab-content">
     <section class="section-card">
-      <h2 class="section-title"><span>🤖</span> 任務一： AI 幾何小助手 —— 上載相片辨識與解釋</h2>
-      <p style="margin: 0; font-size: 14px; color: #666;">
-        拍下課室裏的物品，讓 AI 小助手為你找出平行線並解釋：
-      </p>
-
+      <h2 class="section-title"><span>🤖</span> 任務一：AI實測任務 —— 課室實物與AI實測</h2>
+      
       <input type="file" id="ai-task-file" accept="image/*" capture="environment" style="display: none;" onchange="handleAiImageUpload(event)">
       
       <div class="upload-box" onclick="document.getElementById('ai-task-file').click()">
         <span style="font-size: 36px;">📸</span>
-        <span style="font-weight: 800; color: var(--accent-color);" id="ai-upload-prompt">點擊拍照或上載相片</span>
+        <span style="font-weight: 800; color: var(--accent-color);" id="ai-upload-prompt">點擊啟動鏡頭拍攝課室實物</span>
         <span style="font-size: 13px; color: #888;">（拍下課本對邊、筆袋拉鏈、課桌邊緣等）</span>
       </div>
 
-      <div id="ai-stage" style="display:none; position:relative; max-width:380px; margin:0 auto;">
-        <img id="ai-image-preview" src="" alt="待分析圖片" style="width:100%; border-radius:12px; display:block;">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute; top:0; left:0; width:100%; height:100%;">
-          <line id="ai-line1" x1="10" y1="28" x2="90" y2="28" stroke="#ff1493" stroke-width="4" stroke-linecap="round" style="display:none;"/>
-          <line id="ai-line2" x1="10" y1="72" x2="90" y2="72" stroke="#ff1493" stroke-width="4" stroke-linecap="round" style="display:none;"/>
-        </svg>
+      <!-- 學生在自己拍攝的照片上動手畫線 -->
+      <div id="ai-annotate-stage" style="display:none; flex-direction: column; align-items:center; gap:8px;">
+        <p style="font-size: 13px; color: var(--primary-dark); font-weight: bold; margin: 0;">
+          ✏️ 請用手指在下方照片上，劃出你認為互相平行的 2 條直線：
+        </p>
+        <div class="photo-annotate-box">
+          <canvas id="photo-annotate-canvas"></canvas>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn-secondary" onclick="clearUserAnnotation()">🔄 重畫線條</button>
+        </div>
       </div>
 
       <button type="button" class="btn-action" id="btn-run-ai" disabled onclick="runAiDetection()">
-        <span>🔍</span> 請 AI 為我找出圖中的平行線並解釋
+        <span>🔍</span> 請 AI 小博士分析線段並解釋
       </button>
 
       <div class="feedback-box feedback-correct" id="ai-explanation-box" style="display:none;">
-        <div style="font-weight: bold; color: var(--primary-dark); margin-bottom: 6px;">🐱 你的專屬 AI 小助手報告：</div>
+        <div style="font-weight: bold; color: var(--primary-dark); margin-bottom: 10px;">🐱 AI 小博士分析與檢驗指示：</div>
         <div id="ai-explanation-text"></div>
       </div>
     </section>
 
+    <!-- 實地直尺三點測量記錄 -->
     <section class="section-card">
-      <h2 class="section-title"><span>📏</span> 我的實測驗證記錄</h2>
+      <h2 class="section-title"><span>📏</span> 依小博士指示量度線段的左中右距離</h2>
       <p style="margin: 0; font-size: 14px; color: #666;">
-        拿出直尺量度真實距離，驗證 AI 有沒有判斷錯誤：
+        拿出直尺量度這兩條線的距離，並鍵入數據，以距離判斷是否平行線：
       </p>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <div style="flex: 1 1 90px; text-align: center; background: var(--primary-light); padding: 8px; border-radius: 8px;">
-          <small>線段左邊的距離</small><br>
-          <input type="text" style="width: 50px; text-align: center; margin-top: 4px;" placeholder="0"> cm
+          <small>左端距離</small><br>
+          <input type="number" id="dist-left" style="width: 60px; text-align: center; margin-top: 4px;" placeholder="0" oninput="verifyDistances()"> cm
         </div>
         <div style="flex: 1 1 90px; text-align: center; background: var(--primary-light); padding: 8px; border-radius: 8px;">
-          <small>線段中間的距離</small><br>
-          <input type="text" style="width: 50px; text-align: center; margin-top: 4px;" placeholder="0"> cm
+          <small>中間距離</small><br>
+          <input type="number" id="dist-mid" style="width: 60px; text-align: center; margin-top: 4px;" placeholder="0" oninput="verifyDistances()"> cm
         </div>
         <div style="flex: 1 1 90px; text-align: center; background: var(--primary-light); padding: 8px; border-radius: 8px;">
-          <small>線段右邊的距離</small><br>
-          <input type="text" style="width: 50px; text-align: center; margin-top: 4px;" placeholder="0"> cm
+          <small>右端距離</small><br>
+          <input type="number" id="dist-right" style="width: 60px; text-align: center; margin-top: 4px;" placeholder="0" oninput="verifyDistances()"> cm
         </div>
+      </div>
+      <div id="distance-verdict" style="margin-top:6px; font-weight:bold; font-size:14px; color:var(--primary-dark);">
+        實測判定：請輸入三個位置的量度數據...
       </div>
     </section>
   </div>
 
-  <!-- ==================== 關卡 2：平行線推一推 ==================== -->
+  <!-- ==================== 關卡 2：任務二 尺子模擬器 ==================== -->
   <div id="act2-draw-tab" class="tab-content">
     <section class="section-card">
-      <h2 class="section-title"><span>📐</span> 任務二：直尺和三角尺模擬器</h2>
+      <h2 class="section-title"><span>📐</span> 任務二：尺子模擬器 —— 觀看動態步驟並在方格紙上繪畫</h2>
       <p style="margin: 0; font-size: 14px; color: #666;">
-        在平板上點擊 4 個步驟，觀察手法並熟記口訣：
+        點擊 4 個按鈕觀看平台上的動態模擬器，然後按步驟在方格紙上繪畫一組平行線，完成後拍照上載：
       </p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px;">
@@ -824,107 +987,232 @@
       <div style="background: var(--ai-bg); padding: 10px; border-radius: 10px; font-size: 13.5px; border: 1.5px solid var(--border-color);" id="step-instruction-text">
         <strong>第 1 步說明：</strong> 將三角尺的一條直角邊對齊已有的直線。
       </div>
+
+      <!-- 個人方格紙單組平行線手稿上載 -->
+      <input type="file" id="single-drawing-input" accept="image/*" capture="environment" style="display: none;" onchange="handleSingleDrawingUpload(event)">
+      <div class="upload-box" onclick="document.getElementById('single-drawing-input').click()">
+        <span style="font-size: 32px;">📷</span>
+        <span style="font-weight: 800; color: var(--accent-color);">拍下我在方格紙上繪畫的平行線</span>
+        <img id="single-drawing-preview" style="display:none; width:100%; max-width:240px; border-radius:8px; margin-top:8px;" src="" alt="個人手稿預覽">
+      </div>
     </section>
   </div>
 
-  <!-- ==================== 關卡 3：個人繪畫成果展示 ==================== -->
+  <!-- ==================== 關卡 3：任務三 合作街道圖發布牆 ==================== -->
   <div id="act3-share-tab" class="tab-content">
     <section class="section-card">
-      <h2 class="section-title"><span>🌟</span> 任務三：個人繪圖成果展示 ── 拍照個人成果與學生互評</h2>
+      <h2 class="section-title"><span>🌟</span> 任務三：二人一組合作繪畫平行線街道圖 ── 上載與互評</h2>
       <p style="margin: 0; font-size: 14px; color: #666;">
-        請在方格紙上用工具畫出一組平行線。完成後，<strong>拍下</strong>並上載至成果展示牆：
+        二人合作在方格紙上繪畫多組平行線以製作「我的街道圖」，完成後拍照上載至成果牆並進行互評：
       </p>
 
-      <input type="file" id="drawing-upload-input" accept="image/*" capture="environment" style="display: none;" onchange="handleDrawingUpload(event)">
-      <div class="upload-box" onclick="document.getElementById('drawing-upload-input').click()">
+      <input type="file" id="street-upload-input" accept="image/*" capture="environment" style="display: none;" onchange="handleStreetUpload(event)">
+      <div class="upload-box" onclick="document.getElementById('street-upload-input').click()">
         <span style="font-size: 36px;">📸</span>
-        <span style="font-weight: 800; color: var(--accent-color);">拍下「我的平行線成果」並發布</span>
-        <img id="my-uploaded-drawing" style="display:none; width:100%; max-width:240px; border-radius:8px; margin-top:8px;" src="" alt="預覽">
+        <span style="font-weight: 800; color: var(--accent-color);">拍下「我的街道圖」並發布</span>
+        <img id="my-street-preview" style="display:none; width:100%; max-width:260px; border-radius:8px; margin-top:8px;" src="" alt="街道圖預覽">
       </div>
 
-      <div class="padlet-wall">
+      <div class="padlet-wall" id="street-wall">
+        <!-- 模擬組別展示卡片 -->
         <div class="group-post-card">
           <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px;">
-            <span>陳小明的成果</span>
-            <span style="color:#28a745;">3cm 間距</span>
+            <span>第 1 組街道圖 (陳小明 & 黃大仙)</span>
+            <span style="color:#28a745;">3 組平行線</span>
           </div>
-          <div style="background:#fff; height:90px; border-radius:8px; display:flex; align-items:center; justify-content:center; border:1px solid #ffd1dc;">
-            📏 [成果預覽]
+          <div style="background:#fff; height:100px; border-radius:8px; display:flex; align-items:center; justify-content:center; border:1px solid #ffd1dc;">
+            🛣️ [十字斑馬線平行街道]
           </div>
-          <input type="text" style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:4px 8px; font-size:12px;" placeholder="寫下一句讚賞同學的說話...">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+            <span>互評星星：</span>
+            <div style="color:#ffd700; cursor:pointer;" onclick="toggleStar(this)">⭐️⭐️⭐️</div>
+          </div>
+          <input type="text" style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:4px 8px; font-size:12px;" placeholder="寫下讚賞：道路非常平直！">
         </div>
+
         <div class="group-post-card">
           <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px;">
-            <span>李美美的成果</span>
-            <span style="color:#28a745;">4cm 間距</span>
+            <span>第 2 組街道圖 (李美美 & 張晴晴)</span>
+            <span style="color:#28a745;">雙向高鐵軌道</span>
           </div>
-          <div style="background:#fff; height:90px; border-radius:8px; display:flex; align-items:center; justify-content:center; border:1px solid #ffd1dc;">
-            📏 [成果預覽]
+          <div style="background:#fff; height:100px; border-radius:8px; display:flex; align-items:center; justify-content:center; border:1px solid #ffd1dc;">
+            🚆 [斜向平行鐵道]
           </div>
-          <input type="text" style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:4px 8px; font-size:12px;" placeholder="寫下一句讚賞同學的說話...">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+            <span>互評星星：</span>
+            <div style="color:#ffd700; cursor:pointer;" onclick="toggleStar(this)">⭐️⭐️⭐️</div>
+          </div>
+          <input type="text" style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:4px 8px; font-size:12px;" placeholder="寫下讚賞：斜向平行畫得很好！">
         </div>
       </div>
     </section>
   </div>
 
-  <!-- ==================== 關卡 4：總結評估 ==================== -->
+  <!-- ==================== 關卡 4：任務四 平行線通關測試 ==================== -->
   <div id="act4-summary-tab" class="tab-content">
     <section class="section-card">
-      <h2 class="section-title"><span>🎯</span> 任務四：個人學習通關測試</h2>
-      <div style="background: var(--primary-light); padding: 14px; border-radius: 12px;">
-        <p style="margin: 0 0 10px; font-weight: bold;">【測試題】直尺量度兩條直線，左端 5cm、右端 4cm。它們互相平行嗎？</p>
+      <h2 class="section-title"><span>🎯</span> 任務四：平行線通關測試</h2>
+      <p style="margin: 0; font-size: 14px; color: #666;">
+        隨堂或回家獨自完成通關測試，重温今天所學的概念：
+      </p>
+
+      <div style="background: linear-gradient(135deg, #fff0f3, #ffe4e8); border: 2px dashed var(--accent-color); border-radius: 14px; padding: 14px; font-size: 14px; line-height: 1.6;">
+        <h4 style="margin: 0 0 6px; color: var(--primary-dark);">🏆 學生平行線學習口訣：</h4>
+        <div>1. <strong>特徵：</strong> 同一平面、無限延長、<strong>永不相交</strong>、<strong>距離相等</strong>。</div>
+        <div>2. <strong>作圖技巧：</strong> <strong>一靠、二貼、三推、四畫</strong>。</div>
+      </div>
+
+      <div style="background: var(--primary-light); padding: 14px; border-radius: 12px; margin-top: 10px;">
+        <p style="margin: 0 0 10px; font-weight: bold;">【通關檢測題】小明量度兩條直線，左端距離 5cm，中間距離 5cm，右端距離 4cm。這兩條直線是平行線嗎？</p>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-          <button type="button" class="option-btn" onclick="checkFinalQuiz(false, this)">A. 互相平行</button>
-          <button type="button" class="option-btn" onclick="checkFinalQuiz(true, this)">B. 不平行（因為距離處處不相等，延長會相交）</button>
+          <button type="button" class="option-btn" onclick="checkFinalQuiz(false, this)">A. 是平行線（因為有兩個位置距離一樣）</button>
+          <button type="button" class="option-btn" onclick="checkFinalQuiz(true, this)">B. 不是平行線（因為右端變窄，延長後會相交）</button>
         </div>
         <div id="final-feedback" class="feedback-box"></div>
+      </div>
+
+      <div class="security-badge">
+        <span>🛡️</span>
+        <div>
+          <strong>科技與網絡安全素養：</strong><br>
+          1. 拍照上傳影像時，嚴守私隱保護，不得拍攝別人容貌。<br>
+          2. AI 是學習輔助工具，幾何判斷始終需以嚴謹之量度實測為準！
+          3. AI 也可能會出錯，必須每次都檢查結果。
+        </div>
       </div>
     </section>
   </div>
 </div>
 
+<!-- 教師認證密碼彈窗 (預設隱藏，密碼採掩碼不顯示) -->
+<div class="modal-overlay" id="teacher-auth-modal" style="display: none;" onclick="handleModalOverlayClick(event)">
+  <div class="modal-card">
+    <h3><span>🔐</span> 教師身份認證</h3>
+    <p>切換至教師中控廣播主機前，請輸入授課教師通行密碼：</p>
+    <input 
+      type="password" 
+      id="teacher-pwd-input" 
+      class="modal-pwd-input" 
+      maxlength="16" 
+      placeholder="••••••••" 
+      autocomplete="off"
+      onkeydown="if(event.key==='Enter') verifyTeacherPassword()"
+      aria-label="教師密碼"
+    >
+    <p id="teacher-pwd-error" class="modal-error-msg">❌ 密碼不正確，請重新輸入！</p>
+    <div class="modal-btn-row">
+      <button type="button" class="modal-btn-cancel" onclick="closeTeacherAuthModal()">取消</button>
+      <button type="button" class="modal-btn-confirm" onclick="verifyTeacherPassword()">確認解鎖 🔓</button>
+    </div>
+  </div>
+</div>
+
+<!-- 浮動訊息提示盒 (取代 alert) -->
+<div class="toast-box" id="app-toast"></div>
+
 <script>
-  // 系統權限與廣播狀態管理
   let isTeacherMode = false;
   let activeBroadcastStage = 'preview-tab';
+  let toastTimer = null;
 
-  // 學生名稱更新
-  function updateStudentName(val) {
-    document.getElementById('table-my-name').innerText = val.trim() ? val : '本機學生';
+  function showToast(message) {
+    const toast = document.getElementById('app-toast');
+    if (!toast) return;
+    toast.innerText = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2400);
   }
 
-  // 切換【學生版】與【教師版】
+  function updateStudentHeader() {
+    const nameA = document.getElementById('student-name-a').value.trim();
+    const nameB = document.getElementById('student-name-b').value.trim();
+    let display = "當前學生";
+    if (nameA && nameB) display = `${nameA} & ${nameB}`;
+    else if (nameA) display = nameA;
+    else if (nameB) display = nameB;
+    document.getElementById('table-my-name').innerText = display;
+  }
+
   function toggleSystemRole() {
-    isTeacherMode = !isTeacherMode;
+    if (isTeacherMode) {
+      // 若目前為教師端，直接切換回學生端，不需輸入密碼
+      setTeacherMode(false);
+    } else {
+      // 若從學生端切換至教師端，必須輸入 28844775 密碼解鎖
+      openTeacherAuthModal();
+    }
+  }
+
+  function openTeacherAuthModal() {
+    const modal = document.getElementById('teacher-auth-modal');
+    const pwdInput = document.getElementById('teacher-pwd-input');
+    const errMsg = document.getElementById('teacher-pwd-error');
+    if (modal && pwdInput) {
+      pwdInput.value = '';
+      if (errMsg) errMsg.style.display = 'none';
+      modal.style.display = 'flex';
+      setTimeout(() => pwdInput.focus(), 150);
+    }
+  }
+
+  function closeTeacherAuthModal() {
+    const modal = document.getElementById('teacher-auth-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function handleModalOverlayClick(e) {
+    if (e.target.id === 'teacher-auth-modal') {
+      closeTeacherAuthModal();
+    }
+  }
+
+  function verifyTeacherPassword() {
+    const pwdInput = document.getElementById('teacher-pwd-input');
+    const errMsg = document.getElementById('teacher-pwd-error');
+    if (!pwdInput) return;
+
+    if (pwdInput.value === '28844775') {
+      closeTeacherAuthModal();
+      setTeacherMode(true);
+      showToast('✅ 教師身份驗證成功，已解鎖中控廣播台！');
+    } else {
+      if (errMsg) {
+        errMsg.style.display = 'block';
+        errMsg.innerText = '❌ 密碼不正確，請重新輸入！';
+      }
+      pwdInput.value = '';
+      pwdInput.focus();
+    }
+  }
+
+  function setTeacherMode(enabled) {
+    isTeacherMode = enabled;
     const roleText = document.getElementById('role-text');
     const teacherPanel = document.getElementById('teacher-panel');
     const switchBtn = document.querySelector('.btn-switch-role');
     const studentSyncNotice = document.getElementById('student-sync-notice');
 
     if (isTeacherMode) {
-      roleText.innerText = '目前身份：【教師主控端】具備廣播推屏與檢視權限';
+      roleText.innerText = '目前身份：【教師模式】具備廣播與檢視結果權限';
       teacherPanel.style.display = 'flex';
-      switchBtn.innerText = '🔄 返回【學生端】';
+      switchBtn.innerText = '🔄 返回【學生模式】';
       studentSyncNotice.style.display = 'none';
-
-      // 教師端解鎖所有頁面供教師預覽
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('locked'));
     } else {
-      roleText.innerText = '目前身份：【學生端】學習模式';
+      roleText.innerText = '目前身份：【學生模式】一人一機 / 二人協作模式';
       teacherPanel.style.display = 'none';
-      switchBtn.innerText = '🔄 切換為【教師控制主機】';
+      switchBtn.innerText = '🔄 切換為【教師模式】';
       studentSyncNotice.style.display = 'flex';
-
-      // 重新依據廣播狀態鎖定學生按鈕
       enforceStudentTabLock();
+      showToast('ℹ️ 已返回學生模式。');
     }
   }
 
-  // 教師廣播推屏控制
   function teacherBroadcastTab(tabId) {
     activeBroadcastStage = tabId;
-
-    // 更新教師按鈕高亮
     document.querySelectorAll('.btn-broadcast').forEach(btn => btn.classList.remove('current-stage'));
     if (tabId === 'preview-tab') document.getElementById('bc-tab-preview').classList.add('current-stage');
     if (tabId === 'act1-ai-tab') document.getElementById('bc-tab-act1').classList.add('current-stage');
@@ -932,26 +1220,22 @@
     if (tabId === 'act3-share-tab') document.getElementById('bc-tab-act3').classList.add('current-stage');
     if (tabId === 'act4-summary-tab') document.getElementById('bc-tab-act4').classList.add('current-stage');
 
-    // 模擬學生端接收廣播，強制跳轉畫面
     showTab(tabId);
 
-    // 更新學生端廣播文字
     const stageNames = {
-      'preview-tab': '【課前自學預習】',
-      'act1-ai-tab': '【任務一：AI 實測辨識】',
-      'act2-draw-tab': '【任務二：直尺三角尺模擬器】',
-      'act3-share-tab': '【任務三：個人繪畫成果展示】',
-      'act4-summary-tab': '【任務四：總結評估】'
+      'preview-tab': '【預習. 課前預習檢視】',
+      'act1-ai-tab': '【任務一. 課室實測與 AI對話】',
+      'act2-draw-tab': '【任務二. 尺子模擬器】',
+      'act3-share-tab': '【任務三. 小組合作】',
+      'act4-summary-tab': '【任務四. 平行線通關測試】'
     };
-    document.getElementById('sync-status-msg').innerText = `教師廣播已切換：全班同步進入 ${stageNames[tabId]}`;
+    document.getElementById('sync-status-msg').innerText = `教師廣播推屏：全班同步進入 ${stageNames[tabId]}`;
     
-    // 更新學生端鎖定
     if (!isTeacherMode) {
       enforceStudentTabLock();
     }
   }
 
-  // 學生端鎖定機制：不可超前點選未開放的環節
   function enforceStudentTabLock() {
     const stageOrder = ['preview-tab', 'act1-ai-tab', 'act2-draw-tab', 'act3-share-tab', 'act4-summary-tab'];
     const currentIdx = stageOrder.indexOf(activeBroadcastStage);
@@ -977,7 +1261,7 @@
       const allowedIdx = stageOrder.indexOf(activeBroadcastStage);
 
       if (targetIdx > allowedIdx) {
-        alert('🔒 此活動環節尚未開啟，請跟隨課堂教學節奏！');
+        showToast('🔒 此任務尚未由教師廣播解鎖，請跟隨課堂教學步驟！');
         return;
       }
     }
@@ -1021,7 +1305,6 @@
     line.addEventListener('touchend', applyColor);
   });
 
-  /* 檢查答案並傳送至教師監控台 */
   function checkLinesAnswer() {
     const cTop = lines.top.getAttribute('stroke');
     const cBottom = lines.bottom.getAttribute('stroke');
@@ -1039,11 +1322,11 @@
 
     if (horizontalMatch && verticalMatch && twoPairsDifferent) {
       feedbackBox.className = 'feedback-box feedback-correct';
-      feedbackText.innerHTML = `<strong>🎉 太厲害了！完全正確！</strong><br>上下對邊互相平行（第一組）；左右對邊也互相平行（第二組）！`;
+      feedbackText.innerHTML = `<strong>🎉 太厲害了！配對完全正確！</strong><br>長方形具有兩組平行線：上下對邊互相平行（第一組）；左右對邊也互相平行（第二組）！`;
       monitorCell.innerHTML = '<span style="color:#28a745;">✓ 成功配對</span>';
     } else {
       feedbackBox.className = 'feedback-box feedback-incorrect';
-      feedbackText.innerHTML = `<strong>❌ 還差一點點喔！</strong> 長方形的「上與下」應塗同一色；「左與右」應塗另一種顏色。`;
+      feedbackText.innerHTML = `<strong>❌ 還差一點點喔！請檢查：</strong><br>長方形的「上邊與下邊」應塗同一種顏色；「左邊與右邊」應塗另一種顏色。相鄰邊相碰成直角，不是平行線！`;
       monitorCell.innerHTML = '<span style="color:#dc3545;">✕ 配對有誤</span>';
     }
   }
@@ -1056,11 +1339,11 @@
 
     if (isCorrect) {
       box.className = 'feedback-box feedback-correct';
-      text.innerHTML = "<strong>✓ 正確！</strong> 無限延長永不相交！";
+      text.innerHTML = "<strong>✓ 正確！</strong> 平行線向兩端無限延長也永不相交！";
       monitorCell.innerHTML = '<span style="color:#28a745;">✓ 答對</span>';
     } else {
       box.className = 'feedback-box feedback-incorrect';
-      text.innerHTML = "<strong>✕ 答錯了！</strong> 平行線最關鍵是「永不相交、距離永遠一樣」。";
+      text.innerHTML = "<strong>✕ 答錯了！</strong> 線條長度不必相同，關鍵在於「永不相交、距離相等」。";
       monitorCell.innerHTML = '<span style="color:#dc3545;">✕ 答錯</span>';
     }
   }
@@ -1073,11 +1356,11 @@
 
     if (isCorrect) {
       box.className = 'feedback-box feedback-correct';
-      text.innerHTML = "<strong>✓ 正確！</strong> 斑馬線條紋互相平行！";
+      text.innerHTML = "<strong>✓ 正確！</strong> 斑馬線的條紋彼此平行！";
       monitorCell.innerHTML = '<span style="color:#28a745;">✓ 答對</span>';
     } else {
       box.className = 'feedback-box feedback-incorrect';
-      text.innerHTML = "<strong>✕ 答錯了！</strong> 剪刀與時鐘指針在中心相交，不是平行線。";
+      text.innerHTML = "<strong>✕ 答錯了！</strong> 剪刀與指針在中心相交，不是平行線。";
       monitorCell.innerHTML = '<span style="color:#dc3545;">✕ 答錯</span>';
     }
   }
@@ -1087,10 +1370,10 @@
     box.style.display = 'block';
     if (isCorrect) {
       box.className = 'feedback-box feedback-correct';
-      box.innerHTML = "<strong>🎉 太棒了！完全正確！</strong> 左端 5cm、右端 4cm 代表距離不相等，延長後會相交，所以不是平行線！";
+      box.innerHTML = "<strong>🎉 太棒了！回答正確！</strong> 右端距離變為 4cm，代表線條間距不相等，延長後會相交，所以不是平行線！";
     } else {
       box.className = 'feedback-box feedback-incorrect';
-      box.innerHTML = "<strong>✕ 答錯了！</strong> 平行線的垂直距離必須處處相等。";
+      box.innerHTML = "<strong>✕ 答錯了！</strong> 平行線的垂直距離必須相等，只要有一個位置變窄，就不是平行線！";
     }
   }
 
@@ -1106,49 +1389,114 @@
       reader.onload = function (e) {
         document.getElementById('preview-img-display').src = e.target.result;
         document.getElementById('preview-image-wrap').style.display = 'flex';
-        document.getElementById('table-status-upload').innerHTML = '<span style="color:#28a745;">📷 已上傳</span>';
+        document.getElementById('table-status-upload').innerHTML = '<span style="color:#28a745;">📷 已上載</span>';
       };
       reader.readAsDataURL(file);
     }
   }
+
+  /* 任務一：學生照片畫線與 Canvas 互動 */
+  const annotateCanvas = document.getElementById('photo-annotate-canvas');
+  const ctx = annotateCanvas.getContext('2d');
+  let isDrawing = false;
+  let bgImg = new Image();
 
   function handleAiImageUpload(event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        document.getElementById('ai-image-preview').src = e.target.result;
-        document.getElementById('ai-stage').style.display = 'block';
-        document.getElementById('btn-run-ai').disabled = false;
-        document.getElementById('ai-upload-prompt').innerText = "✓ 照片已載入！點擊請 AI 尋找平行線";
+        bgImg = new Image();
+        bgImg.onload = function () {
+          annotateCanvas.width = 520;
+          annotateCanvas.height = 390;
+          redrawAnnotation();
+          document.getElementById('ai-annotate-stage').style.display = 'flex';
+          document.getElementById('btn-run-ai').disabled = false;
+          document.getElementById('ai-upload-prompt').innerText = "✓ 照片已載入，請在畫布上畫出兩條平行線";
+        };
+        bgImg.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   }
 
+  function redrawAnnotation() {
+    ctx.clearRect(0, 0, annotateCanvas.width, annotateCanvas.height);
+    ctx.drawImage(bgImg, 0, 0, annotateCanvas.width, annotateCanvas.height);
+  }
+
+  function clearUserAnnotation() {
+    redrawAnnotation();
+  }
+
+  function startDraw(e) {
+    isDrawing = true;
+    ctx.beginPath();
+    const rect = annotateCanvas.getBoundingClientRect();
+    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+    ctx.moveTo(x * (annotateCanvas.width / rect.width), y * (annotateCanvas.height / rect.height));
+  }
+
+  function drawMove(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const rect = annotateCanvas.getBoundingClientRect();
+    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = '#ff1493';
+    ctx.lineCap = 'round';
+    ctx.lineTo(x * (annotateCanvas.width / rect.width), y * (annotateCanvas.height / rect.height));
+    ctx.stroke();
+  }
+
+  function stopDraw() { isDrawing = false; }
+
+  annotateCanvas.addEventListener('mousedown', startDraw);
+  annotateCanvas.addEventListener('mousemove', drawMove);
+  annotateCanvas.addEventListener('mouseup', stopDraw);
+  annotateCanvas.addEventListener('touchstart', startDraw);
+  annotateCanvas.addEventListener('touchmove', drawMove);
+  annotateCanvas.addEventListener('touchend', stopDraw);
+
   function runAiDetection() {
     const btn = document.getElementById('btn-run-ai');
     const box = document.getElementById('ai-explanation-box');
     const text = document.getElementById('ai-explanation-text');
-    const l1 = document.getElementById('ai-line1');
-    const l2 = document.getElementById('ai-line2');
 
     btn.disabled = true;
-    btn.innerHTML = "⏳ AI 正在計算直線斜率與距離...";
+    btn.innerHTML = "⏳ AI 小博士正在比對線條與邊界...";
     box.style.display = "block";
-    text.innerHTML = "正在辨識圖片輪廓...";
+    text.innerHTML = "正在辨識線條...";
 
     setTimeout(() => {
-      l1.style.display = 'block';
-      l2.style.display = 'block';
       text.innerHTML = `
-        <p>1. <strong>辨識結果：</strong> 我在相片中標記了 2 條亮粉紅色的直線邊界！</p>
-        <p>2. <strong>為什麼是平行線：</strong> 這兩條直線向兩端延長<strong>永遠不會相交</strong>，且距離處處相等。</p>
-        <p style="color:#d85d75; font-weight:bold;">👉 現在請用直尺量度真實距離，核對我的判斷！</p>
+        <p>1. <strong>分析：</strong>  2 條線段走向大致相同！</p>
+        <p>2. <strong>AI 提示：</strong> 肉眼和鏡頭可能會受拍攝角度影響產生偏差。</p>
+        <p style="color:#d85d75; font-weight:bold;">👉 請拿出直尺，依指示量度該物品「左、中、右」三點的距離並在下方鍵入數值！</p>
       `;
       btn.disabled = false;
-      btn.innerHTML = "🔍 重新拍照分析";
+      btn.innerHTML = "🔍 重新分析";
     }, 1000);
+  }
+
+  function verifyDistances() {
+    const l = parseFloat(document.getElementById('dist-left').value);
+    const m = parseFloat(document.getElementById('dist-mid').value);
+    const r = parseFloat(document.getElementById('dist-right').value);
+    const verdict = document.getElementById('distance-verdict');
+
+    if (!isNaN(l) && !isNaN(m) && !isNaN(r)) {
+      if (l === m && m === r && l > 0) {
+        verdict.style.color = "#28a745";
+        verdict.innerHTML = `🏆 實測結果：左中右三點距離均為 ${l} cm，距離相等，證實為【互相平行】！`;
+      } else {
+        verdict.style.color = "#dc3545";
+        verdict.innerHTML = `⚠️ 實測結果：三個位置距離不完全相同（${l}cm, ${m}cm, ${r}cm），線條延長後會相交，因此【不是平行線】！`;
+      }
+    }
   }
 
   function setDrawingStep(stepNum) {
@@ -1174,13 +1522,13 @@
       newLine.style.display = 'none';
       newText.style.display = 'none';
       triangle.style.transform = 'translate(85px, 95px)';
-      descText.innerHTML = "<strong>第 2 步：貼 📏</strong> 拿出一把直尺，緊貼三角尺的另一條直角邊作為軌道。";
+      descText.innerHTML = "<strong>第 2 步：貼 📏</strong> 拿出一把直尺，緊貼三角尺的另一條直角邊作為滑動軌道。";
     } else if (stepNum === 3) {
       ruler.style.display = 'block';
       newLine.style.display = 'none';
       newText.style.display = 'none';
       triangle.style.transform = 'translate(85px, -5px)';
-      descText.innerHTML = "<strong>第 3 步：推 🏃</strong> 按住直尺不動，右手向上滑動推移三角尺。";
+      descText.innerHTML = "<strong>第 3 步：推 🏃</strong> 按住直尺固定不動，右手平移滑動三角尺。";
     } else if (stepNum === 4) {
       ruler.style.display = 'block';
       triangle.style.transform = 'translate(85px, -5px)';
@@ -1190,18 +1538,58 @@
     }
   }
 
-  function handleDrawingUpload(event) {
+  function handleSingleDrawingUpload(event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        const previewImg = document.getElementById('my-uploaded-drawing');
-        previewImg.src = e.target.result;
-        previewImg.style.display = 'block';
-        alert('🎉 你的繪圖成果已成功發布！');
+        const p = document.getElementById('single-drawing-preview');
+        p.src = e.target.result;
+        p.style.display = 'block';
+        showToast('✓ 平行線已成功記錄！');
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  function handleStreetUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const preview = document.getElementById('my-street-preview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+
+        const nameA = document.getElementById('student-name-a').value.trim() || '特工A';
+        const nameB = document.getElementById('student-name-b').value.trim() || '特工B';
+        const wall = document.getElementById('street-wall');
+
+        const newCard = document.createElement('div');
+        newCard.className = 'group-post-card';
+        newCard.innerHTML = `
+          <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:13px;">
+            <span>本組街道圖 (${nameA} & ${nameB})</span>
+            <span style="color:#ff6b8b;">剛剛發布</span>
+          </div>
+          <img src="${e.target.result}" style="width:100%; height:110px; object-fit:cover; border-radius:8px; border:1px solid #ffd1dc;" alt="街道圖">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+            <span>給予星級：</span>
+            <div style="color:#ffd700; cursor:pointer;" onclick="toggleStar(this)">⭐️⭐️⭐️</div>
+          </div>
+          <input type="text" style="width:100%; border:1px solid var(--border-color); border-radius:6px; padding:4px 8px; font-size:12px;" placeholder="寫下讚賞...">
+        `;
+        wall.insertBefore(newCard, wall.firstChild);
+        showToast('🎉 本組合作繪畫的平行線街道圖已成功發布至成果牆！');
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function toggleStar(el) {
+    if (el.innerText === '⭐️⭐️⭐️') el.innerText = '⭐️⭐️';
+    else if (el.innerText === '⭐️⭐️') el.innerText = '⭐️';
+    else el.innerText = '⭐️⭐️⭐️';
   }
 </script>
 
