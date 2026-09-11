@@ -904,19 +904,46 @@
       </div>
     </section>
 
-    <!-- 任務 4：拍下家中有平行線的物件照片 -->
+    <!-- 任務 4：拍下家中有平行線的物件照片並進行畫筆標記 -->
     <section class="section-card">
       <h2 class="section-title"><span>📷</span> 預習任務 4：拍下家中有平行線的物件照片</h2>
+      <p style="margin: 0; font-size: 14px; color: #666;">拍下家中具備平行特徵的物品（例如百葉簾、門框、窗框、地磚等），並用畫筆直接在相片上描出平行的直線：</p>
       <input type="file" id="preview-file-input" accept="image/*" capture="environment" style="display: none;" onchange="handlePreviewUpload(event)">
 
-      <div class="upload-box" onclick="document.getElementById('preview-file-input').click()">
+      <div class="upload-box" id="preview-upload-box" onclick="document.getElementById('preview-file-input').click()">
         <span style="font-size: 36px;">📸</span>
-        <span style="font-weight: 800; color: var(--accent-color);">點擊拍照上載家中找到的「平行線」</span>
+        <span style="font-weight: 800; color: var(--accent-color);" id="preview-upload-prompt">點擊拍照上載家中找到的「平行線」</span>
         <span style="font-size: 13px; color: #888;">（例如百葉簾、門框、地磚縫隙等）</span>
+      </div>
 
-        <div class="image-preview-container" id="preview-image-wrap" style="display:none; margin-top:8px;">
-          <img id="preview-img-display" src="" alt="預覽照片" style="max-width:240px; border-radius:8px;">
-          <button type="button" class="btn-secondary" style="margin-top:6px;" onclick="event.stopPropagation(); document.getElementById('preview-file-input').click()">🔄 更換照片</button>
+      <!-- 照片上載後的畫筆標記舞台與提交區域 -->
+      <div id="preview-annotate-stage" style="display:none; flex-direction: column; align-items:center; gap:10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 520px; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 13.5px; color: var(--primary-dark); font-weight: bold;">
+            ✏️ 請在照片上親手描出互相平行的直線：
+          </span>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <button type="button" class="brush-btn active" style="padding: 4px 10px; font-size: 12px;" onclick="selectPreviewBrush('#ff1493', this)">
+              <span class="color-circle" style="background: #ff1493;"></span> 粉紅
+            </button>
+            <button type="button" class="brush-btn" style="padding: 4px 10px; font-size: 12px;" onclick="selectPreviewBrush('#00b4d8', this)">
+              <span class="color-circle" style="background: #00b4d8;"></span> 天藍
+            </button>
+            <button type="button" class="btn-secondary" style="margin: 0; padding: 4px 10px; font-size: 12px;" onclick="clearPreviewAnnotation()">🔄 重畫</button>
+            <button type="button" class="btn-secondary" style="margin: 0; padding: 4px 10px; font-size: 12px;" onclick="document.getElementById('preview-file-input').click()">📷 重拍</button>
+          </div>
+        </div>
+
+        <div class="photo-annotate-box">
+          <canvas id="preview-annotate-canvas"></canvas>
+        </div>
+
+        <button type="button" class="btn-action" style="max-width: 520px;" onclick="submitPreviewTask()">
+          <span>✓</span> 完成標記並提交預習
+        </button>
+
+        <div id="preview-submit-feedback" class="feedback-box feedback-correct" style="display: none; width: 100%; max-width: 520px;">
+          <strong>🎉 預習任務 4 提交成功！</strong> 已成功記錄你的標記成果並同步至教師中控儀表板。
         </div>
       </div>
 
@@ -1876,18 +1903,118 @@
     }
   }
 
+  /* 預習任務 4：照片上載、畫筆標註與提交 */
+  let previewCanvas = null;
+  let previewCtx = null;
+  let isPreviewDrawing = false;
+  let previewBgImg = new Image();
+  let currentPreviewBrushColor = '#ff1493';
+  let hasDrawnOnPreview = false;
+
+  function initPreviewCanvas() {
+    previewCanvas = document.getElementById('preview-annotate-canvas');
+    if (!previewCanvas) return;
+    previewCtx = previewCanvas.getContext('2d');
+
+    previewCanvas.addEventListener('mousedown', startPreviewDraw);
+    previewCanvas.addEventListener('mousemove', drawPreviewMove);
+    previewCanvas.addEventListener('mouseup', stopPreviewDraw);
+    previewCanvas.addEventListener('mouseleave', stopPreviewDraw);
+    previewCanvas.addEventListener('touchstart', startPreviewDraw);
+    previewCanvas.addEventListener('touchmove', drawPreviewMove);
+    previewCanvas.addEventListener('touchend', stopPreviewDraw);
+  }
+
   function handlePreviewUpload(event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        document.getElementById('preview-img-display').src = e.target.result;
-        document.getElementById('preview-image-wrap').style.display = 'flex';
-        document.getElementById('table-status-upload').innerHTML = '<span style="color:#16a34a;">📷 已上載</span>';
+        previewBgImg = new Image();
+        previewBgImg.onload = function () {
+          if (!previewCanvas) initPreviewCanvas();
+          if (previewCanvas) {
+            previewCanvas.width = 520;
+            previewCanvas.height = 390;
+            redrawPreviewCanvas();
+            document.getElementById('preview-annotate-stage').style.display = 'flex';
+            document.getElementById('preview-upload-prompt').innerText = "✓ 照片已成功載入！請在下方畫布描出平行線";
+            document.getElementById('preview-submit-feedback').style.display = 'none';
+            hasDrawnOnPreview = false;
+            showToast('📸 照片載入成功，請在相片上描出平行線！');
+          }
+        };
+        previewBgImg.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   }
+
+  function redrawPreviewCanvas() {
+    if (!previewCtx || !previewCanvas) return;
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+    previewCtx.drawImage(previewBgImg, 0, 0, previewCanvas.width, previewCanvas.height);
+  }
+
+  function clearPreviewAnnotation() {
+    redrawPreviewCanvas();
+    hasDrawnOnPreview = false;
+    showToast('🔄 已清除標記，請重新在照片上畫線！');
+  }
+
+  function selectPreviewBrush(color, btn) {
+    currentPreviewBrushColor = color;
+    document.querySelectorAll('#preview-annotate-stage .brush-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  function startPreviewDraw(e) {
+    if (!previewCtx || !previewCanvas) return;
+    isPreviewDrawing = true;
+    previewCtx.beginPath();
+    const rect = previewCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    previewCtx.moveTo(x * (previewCanvas.width / rect.width), y * (previewCanvas.height / rect.height));
+  }
+
+  function drawPreviewMove(e) {
+    if (!isPreviewDrawing || !previewCtx || !previewCanvas) return;
+    e.preventDefault();
+    const rect = previewCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    previewCtx.lineWidth = 6;
+    previewCtx.strokeStyle = currentPreviewBrushColor;
+    previewCtx.lineCap = 'round';
+    previewCtx.lineTo(x * (previewCanvas.width / rect.width), y * (previewCanvas.height / rect.height));
+    previewCtx.stroke();
+    hasDrawnOnPreview = true;
+  }
+
+  function stopPreviewDraw() {
+    isPreviewDrawing = false;
+  }
+
+  function submitPreviewTask() {
+    const feedback = document.getElementById('preview-submit-feedback');
+    const monitorCell = document.getElementById('table-status-upload');
+    
+    if (feedback) feedback.style.display = 'block';
+    if (monitorCell) {
+      monitorCell.innerHTML = '<span style="color:#16a34a;">✓ 📷 已標記提交</span>';
+    }
+    showToast('🎉 預習任務 4 提交成功！教師端已收到你的標記成果！');
+  }
+
+  /* 確保 DOM 載入時初始化畫布引用 */
+  window.addEventListener('DOMContentLoaded', () => {
+    initPreviewCanvas();
+  });
 
   /* 任務一 Canvas 實物塗鴉與 AI 分析 */
   const annotateCanvas = document.getElementById('photo-annotate-canvas');
