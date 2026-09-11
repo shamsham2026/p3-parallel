@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>滬江小學 - 小三數學科課前預習：平行線</title>
+  <style>
+    :root {
+      --primary-color: #ff8da1;
+      --primary-light: #fff0f5;
+      --primary-dark: #d85d75;
+      --accent-color: #ff6b8b;
+      --text-color: #444444;
+      --card-bg: #ffffff;
+      --border-color: #ffd1dc;
+      --active-line: #ff1493;
+      --inactive-line: #b0c4de;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: clamp(10px, 3vw, 24px);
+      background-color: var(--primary-light);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      background: var(--card-bg);
+      border-radius: clamp(16px, 3vw, 24px);
+      padding: clamp(16px, 4vw, 32px);
+      box-shadow: 0 10px 30px rgba(255, 141, 161, 0.18);
+      border: 2px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 3vw, 24px);
+    }
+
+    /* 頂部標題 */
+    .header-box {
+      text-align: center;
+      border-bottom: 2px dashed var(--primary-color);
+      padding-bottom: clamp(12px, 2vw, 18px);
+    }
+
+    .header-box h1 {
+      margin: 0;
+      color: var(--primary-dark);
+      font-size: clamp(20px, 4.5vw, 26px);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .header-box p {
+      margin: 8px 0 0;
+      color: #777;
+      font-size: clamp(13px, 2.8vw, 15px);
+    }
+
+    /* 學生資料欄 */
+    .student-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--primary-light);
+      padding: clamp(10px, 2vw, 14px);
+      border-radius: 14px;
+    }
+
+    .input-field {
+      flex: 1 1 calc(33.333% - 12px);
+      min-width: 140px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(14px, 2.8vw, 15px);
+      font-weight: 600;
+    }
+
+    .input-field input {
+      flex: 1;
+      min-width: 0;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+
+    .input-field input:focus {
+      border-color: var(--accent-color);
+    }
+
+    /* 區塊卡片共通樣式 */
+    .section-card {
+      background: #fff;
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: clamp(14px, 3vw, 22px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(16px, 3.2vw, 18px);
+      font-weight: 800;
+      color: var(--accent-color);
+      margin: 0;
+    }
+
+    /* 任務一：影片播放器 (響應式 16:9) */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* 任務二：觸控著色互動畫布 (支援 Click 與 Touch) */
+    .canvas-instruction {
+      font-size: clamp(13px, 2.8vw, 15px);
+      color: #666;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .canvas-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .interactive-canvas-box {
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 4 / 3;
+      background: #fafafa;
+      border: 2px dashed var(--primary-color);
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      touch-action: manipulation;
+    }
+
+    #shape-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      user-select: none;
+    }
+
+    .line-interactive {
+      cursor: pointer;
+      stroke-linecap: round;
+      transition: stroke 0.2s ease, stroke-width 0.2s ease;
+    }
+
+    .palette-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .palette-btn {
+      flex: 1 1 auto;
+      min-width: 100px;
+      max-width: 160px;
+      padding: 10px 14px;
+      border-radius: 20px;
+      border: 2px solid var(--border-color);
+      background: #fff;
+      font-size: clamp(12px, 2.6vw, 14px);
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .palette-btn.active {
+      background: var(--primary-light);
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* 任務三：題目與視覺選項 */
+    .quiz-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .quiz-card {
+      background: var(--primary-light);
+      border-radius: 12px;
+      padding: clamp(12px, 2.5vw, 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-card p {
+      margin: 0;
+      font-weight: 700;
+      font-size: clamp(14px, 2.8vw, 15px);
+      line-height: 1.4;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .option-chip {
+      background: #fff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(13px, 2.6vw, 14px);
+      cursor: pointer;
+      min-width: 0;
+      transition: all 0.15s ease;
+    }
+
+    .option-chip:hover, .option-chip:active {
+      border-color: var(--accent-color);
+      background: #fffafb;
+    }
+
+    .option-chip input {
+      accent-color: var(--accent-color);
+      margin: 0;
+    }
+
+    /* 任務四：照相機發現 */
+    .discovery-box {
+      border: 2px dashed var(--accent-color);
+      border-radius: 14px;
+      background: #fffafb;
+      padding: clamp(14px, 3vw, 20px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .discovery-box input {
+      width: 100%;
+      max-width: 320px;
+      border: none;
+      border-bottom: 2px solid var(--accent-color);
+      background: transparent;
+      padding: 6px 8px;
+      font-size: clamp(15px, 3vw, 16px);
+      text-align: center;
+      outline: none;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    /* 資訊安全提醒 */
+    .security-badge {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #fafafa;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px dashed #d0d0d0;
+      font-size: clamp(11px, 2.4vw, 13px);
+      color: #888;
+      line-height: 1.4;
+    }
+
+    /* 底部操作按鈕 */
+    .btn-submit {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #ff8da1, #ff6b8b);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: clamp(12px, 2.5vw, 16px) 24px;
+      font-size: clamp(15px, 3vw, 18px);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255, 107, 139, 0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(255, 107, 139, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header-box">
+    <h1>滬江小學 數學科 課前自學單</h1>
+    <p>第15課 平行線 ── 尋找身邊的「雙胞胎直走線」</p>
+  </header>
+
+  <!-- 學生填寫資料欄 (Flexbox 自適應) -->
+  <div class="student-bar">
+    <div class="input-field">
+      <span>班別：3</span>
+      <input type="text" placeholder="甲/乙/丙" aria-label="班別">
+    </div>
+    <div class="input-field">
+      <span>姓名：</span>
+      <input type="text" placeholder="輸入姓名" aria-label="學生姓名">
+    </div>
+    <div class="input-field">
+      <span>學號：</span>
+      <input type="number" placeholder="號數" aria-label="學號">
+    </div>
+  </div>
+
+  <!-- 任務一：教育多媒體影片嵌入 -->
+  <section class="section-card">
+    <h2 class="section-title"><span>📺</span> 任務一：觀看教育多媒體（EMM）微課</h2>
+    <p class="canvas-instruction">影片已設定從 <strong>07:15</strong> 播放至 <strong>12:45</strong>，請點擊播放，觀察鐵路鋼軌與斑馬線的特徵：</p>
+    
+    <div class="video-wrapper">
+      <iframe 
+        id="kaltura_player" 
+        src="https://cdnapisec.kaltura.com/p/2621712/sp/262171200/embedIframeJs/uiconf_id/46688843/partner_id/2621712?iframeembed=true&playerId=kaltura_player&entry_id=0_8j2adg5o&flashvars[streamerType]=auto&amp;flashvars[localizationCode]=zh_Hant&amp;flashvars[sideBarContainer.plugin]=true&amp;flashvars[sideBarContainer.position]=left&amp;flashvars[sideBarContainer.clickToClose]=true&amp;flashvars[chapters.plugin]=true&amp;flashvars[chapters.layout]=vertical&amp;flashvars[chapters.thumbnailRotator]=false&amp;flashvars[streamSelector.plugin]=true&amp;flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&amp;flashvars[dualScreen.plugin]=true&amp;flashvars[hotspots.plugin]=1&amp;flashvars[mediaProxy.mediaPlayFrom]=435&amp;flashvars[mediaProxy.mediaPlayTo]=765&amp;flashvars[Kaltura.addCrossoriginToIframe]=true&amp;&wid=1_byujqion" 
+        allowfullscreen 
+        webkitallowfullscreen 
+        mozAllowFullScreen 
+        allow="autoplay *; fullscreen *; encrypted-media *" 
+        sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" 
+        title="平行和垂直 (英文字幕可供選擇)">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- 任務二：點擊/觸控圖形著色互動 (滑鼠與觸控相容) -->
+  <section class="section-card">
+    <h2 class="section-title"><span>🎨</span> 任務二：動手點點・幫「平行線」塗上粉紅色</h2>
+    <p class="canvas-instruction">長方形窗框有 4 條邊。用手指點擊或滑鼠按一下線條，將<strong>互相平行的一組對邊</strong>塗成亮粉紅色：</p>
+    
+    <div class="canvas-container">
+      <div class="interactive-canvas-box">
+        <svg id="shape-svg" viewBox="0 0 400 300">
+          <!-- 互動背景與輔助線 -->
+          <rect x="50" y="40" width="300" height="220" rx="10" fill="#ffffff" stroke="#f0f0f0" stroke-width="2"/>
+          <text x="200" y="155" text-anchor="middle" fill="#d85d75" font-size="16" font-weight="bold">點擊四周線條塗色</text>
+
+          <!-- 頂邊線段 (Line 1) -->
+          <line id="edge-top" class="line-interactive" x1="60" y1="50" x2="340" y2="50" stroke="#b0c4de" stroke-width="12"/>
+          
+          <!-- 底邊線段 (Line 2) -->
+          <line id="edge-bottom" class="line-interactive" x1="60" y1="250" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          
+          <!-- 左邊線段 (Line 3) -->
+          <line id="edge-left" class="line-interactive" x1="60" y1="50" x2="60" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          
+          <!-- 右邊線段 (Line 4) -->
+          <line id="edge-right" class="line-interactive" x1="340" y1="50" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
+        </svg>
+      </div>
+
+      <div class="palette-bar">
+        <button type="button" class="palette-btn active" id="btn-color-pink">
+          <span class="color-dot" style="background-color: #ff1493;"></span> 粉紅筆 (著色)
+        </button>
+        <button type="button" class="palette-btn" id="btn-color-reset">
+          <span class="color-dot" style="background-color: #b0c4de;"></span> 重設全部
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 任務三：概念理解檢查 -->
+  <section class="section-card">
+    <h2 class="section-title"><span>💡</span> 任務三：觀念小偵探</h2>
+    
+    <div class="quiz-group">
+      <div class="quiz-card">
+        <p>1. 影片中的平行線有哪些重要特點？（可選多項）</p>
+        <div class="option-grid">
+          <label class="option-chip"><input type="checkbox" name="q1"> 永遠不相交</label>
+          <label class="option-chip"><input type="checkbox" name="q1"> 距離處處相等</label>
+          <label class="option-chip"><input type="checkbox" name="q1"> 會交叉成十字</label>
+          <label class="option-chip"><input type="checkbox" name="q1"> 越走越分開</label>
+        </div>
+      </div>
+
+      <div class="quiz-card">
+        <p>2. 下列哪一個生活例子代表「平行線」？</p>
+        <div class="option-grid">
+          <label class="option-chip"><input type="radio" name="q2"> 斑馬線白條</label>
+          <label class="option-chip"><input type="radio" name="q2"> 剪刀刀口</label>
+          <label class="option-chip"><input type="radio" name="q2"> 圓形時鐘指針</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 任務四：生活物品發掘 -->
+  <section class="section-card">
+    <h2 class="section-title"><span>📷</span> 任務四：家中的平行線特工行動</h2>
+    
+    <div class="discovery-box">
+      <span style="font-size: 32px;">🔎</span>
+      <span style="font-weight: 700; font-size: clamp(14px, 2.8vw, 16px);">我在家中發現有平行線的物品：</span>
+      <input type="text" placeholder="例：百葉簾 / 衣櫃門框 / 間尺" aria-label="物品名稱">
+    </div>
+
+    <div class="security-badge">
+      <span>🛡️</span>
+      <span><strong>科技與私隱安全提醒：</strong>在課堂使用平板鏡頭拍照前，必須確認沒有拍到同學或家人的面容及個人資料。</span>
+    </div>
+  </section>
+
+  <button class="btn-submit" type="button" id="submit-btn">
+    <span>✓</span> 完成並提交預習
+  </button>
+</div>
+
+<script>
+  // 著色互動邏輯：同時監聽 Click 與 Touch
+  document.addEventListener('DOMContentLoaded', function () {
+    const lines = [
+      document.getElementById('edge-top'),
+      document.getElementById('edge-bottom'),
+      document.getElementById('edge-left'),
+      document.getElementById('edge-right')
+    ];
+
+    const pinkColor = '#ff1493';
+    const defaultColor = '#b0c4de';
+
+    // 點擊線條切換顏色狀態
+    function toggleLineColor(line) {
+      const currentColor = line.getAttribute('stroke');
+      if (currentColor === pinkColor) {
+        line.setAttribute('stroke', defaultColor);
+        line.setAttribute('stroke-width', '12');
+      } else {
+        line.setAttribute('stroke', pinkColor);
+        line.setAttribute('stroke-width', '16');
+      }
+    }
+
+    lines.forEach(function (line) {
+      // 支援滑鼠點擊
+      line.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleLineColor(this);
+      });
+
+      // 支援平板/手機觸控 (Touch)
+      line.addEventListener('touchend', function (e) {
+        e.preventDefault();
+        toggleLineColor(this);
+      });
+    });
+
+    // 重設按鈕
+    const resetBtn = document.getElementById('btn-color-reset');
+    function resetAll() {
+      lines.forEach(function (line) {
+        line.setAttribute('stroke', defaultColor);
+        line.setAttribute('stroke-width', '12');
+      });
+    }
+
+    resetBtn.addEventListener('click', resetAll);
+    resetBtn.addEventListener('touchend', function (e) {
+      e.preventDefault();
+      resetAll();
+    });
+
+    // 提交反饋
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.addEventListener('click', function () {
+      alert('🌟 太棒了！已成功記錄預習進度。\n請記得明天帶備直尺與三角尺回校上課！');
+    });
+  });
+</script>
+
+</body>
+</html>
