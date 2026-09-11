@@ -13,7 +13,8 @@
       --text-color: #444444;
       --card-bg: #ffffff;
       --border-color: #ffd1dc;
-      --active-pink: #ff1493;
+      --pair-h-color: #ff1493; /* 水平對邊（上下）：活力粉紅 */
+      --pair-v-color: #00b4d8; /* 垂直對邊（左右）：清新天藍 */
       --inactive-line: #b0c4de;
       --ai-bg: #fdf5f7;
     }
@@ -48,7 +49,7 @@
       gap: clamp(16px, 3vw, 24px);
     }
 
-    /* 頂部個人五大關卡導航欄 */
+    /* 頂部導航欄 */
     .tab-bar {
       display: flex;
       flex-wrap: wrap;
@@ -88,7 +89,7 @@
       display: flex;
     }
 
-    /* 個人學生資訊登入欄 */
+    /* 學生基本資訊欄 */
     .student-bar {
       display: flex;
       flex-wrap: wrap;
@@ -140,7 +141,7 @@
       margin: 0;
     }
 
-    /* 影片容器 */
+    /* 影片響應式容器 */
     .video-wrapper {
       position: relative;
       width: 100%;
@@ -161,7 +162,7 @@
       border: none;
     }
 
-    /* 著色互動 */
+    /* 雙組不同色互動畫布 */
     .interactive-canvas-box {
       width: 100%;
       max-width: 500px;
@@ -187,6 +188,27 @@
       cursor: pointer;
       stroke-linecap: round;
       transition: stroke 0.2s ease, stroke-width 0.2s ease;
+    }
+
+    .color-legend {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .legend-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
     }
 
     /* 題目選項 */
@@ -619,18 +641,30 @@
       </div>
     </section>
 
-    <!-- 任務二：個人著色預習 -->
+    <!-- 任務二：分組不同色著色互動（上下組 vs 左右組） -->
     <section class="section-card">
-      <h2 class="section-title"><span>🎨</span> 任務二：動手點點・找出一組平行對邊</h2>
-      <p style="margin: 0; font-size: 14px; color: #666;">用手指或滑鼠點擊長方形的上下兩條邊，把它們塗成亮粉紅色：</p>
+      <h2 class="section-title"><span>🎨</span> 任務二：動手點點・找出兩組平行對邊</h2>
+      <p style="margin: 0; font-size: 14px; color: #666;">
+        點擊長方形四周線條塗色。長方形有兩組互相平行的對邊，每組會亮起不同的專屬顏色：
+      </p>
+
+      <div class="color-legend">
+        <span class="legend-tag"><span class="legend-dot" style="background-color: var(--pair-h-color);"></span> 第一組平行線（上下對邊）：亮粉紅色</span>
+        <span class="legend-tag"><span class="legend-dot" style="background-color: var(--pair-v-color);"></span> 第二組平行線（左右對邊）：天藍色</span>
+      </div>
+
       <div class="interactive-canvas-box">
         <svg id="shape-svg" viewBox="0 0 400 300">
           <rect x="50" y="40" width="300" height="220" rx="10" fill="#ffffff" stroke="#f0f0f0" stroke-width="2"/>
-          <text x="200" y="155" text-anchor="middle" fill="#d85d75" font-size="16" font-weight="bold">點擊四周線條塗色</text>
-          <line id="edge-top" class="line-interactive" x1="60" y1="50" x2="340" y2="50" stroke="#b0c4de" stroke-width="12"/>
-          <line id="edge-bottom" class="line-interactive" x1="60" y1="250" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
-          <line id="edge-left" class="line-interactive" x1="60" y1="50" x2="60" y2="250" stroke="#b0c4de" stroke-width="12"/>
-          <line id="edge-right" class="line-interactive" x1="340" y1="50" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          <text id="canvas-center-hint" x="200" y="155" text-anchor="middle" fill="#d85d75" font-size="15" font-weight="bold">點擊四周線條塗色</text>
+          
+          <!-- 水平組：上下對邊（點擊切換亮粉紅 #ff1493） -->
+          <line id="edge-top" class="line-interactive" data-pair="h" x1="60" y1="50" x2="340" y2="50" stroke="#b0c4de" stroke-width="12"/>
+          <line id="edge-bottom" class="line-interactive" data-pair="h" x1="60" y1="250" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          
+          <!-- 垂直組：左右對邊（點擊切換天藍色 #00b4d8） -->
+          <line id="edge-left" class="line-interactive" data-pair="v" x1="60" y1="50" x2="60" y2="250" stroke="#b0c4de" stroke-width="12"/>
+          <line id="edge-right" class="line-interactive" data-pair="v" x1="340" y1="50" x2="340" y2="250" stroke="#b0c4de" stroke-width="12"/>
         </svg>
       </div>
     </section>
@@ -818,7 +852,6 @@
         請在你的個人方格紙上，使用直尺和三角尺畫出一組平行線。完成後，<strong>拍下你自己的繪畫手稿</strong>發布至班級牆，並在平板上瀏覽同學作品給予星級評分：
       </p>
 
-      <!-- 個人手稿拍照上傳 -->
       <input type="file" id="drawing-upload-input" accept="image/*" capture="environment" style="display: none;" onchange="handleDrawingUpload(event)">
       <div class="drawing-upload-section" onclick="document.getElementById('drawing-upload-input').click()">
         <span style="font-size: 32px;">📸</span>
@@ -827,7 +860,6 @@
         <img id="my-uploaded-drawing" class="my-work-preview" src="" alt="我的繪圖作品">
       </div>
 
-      <!-- 班級所有同學的個人手稿展示牆 -->
       <div class="padlet-wall">
         <div class="group-post-card">
           <div class="group-post-header">
@@ -932,7 +964,6 @@
 </div>
 
 <script>
-  // 頁面頂部 5 個大頁籤切換
   function switchTab(tabId, btnElement) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -940,28 +971,48 @@
     btnElement.classList.add('active');
   }
 
-  // 課前著色點擊互動
-  const lines = [
-    document.getElementById('edge-top'),
-    document.getElementById('edge-bottom'),
-    document.getElementById('edge-left'),
-    document.getElementById('edge-right')
-  ];
-  const pinkColor = '#ff1493';
-  const defaultColor = '#b0c4de';
+  // 任務二：分組不同色著色邏輯（上下組為亮粉紅，左右組為天藍色）
+  const colorHorizontal = '#ff1493'; // 水平對邊：粉紅
+  const colorVertical = '#00b4d8';   // 垂直對邊：天藍
+  const defaultLineColor = '#b0c4de';
 
-  function toggleLine(line) {
-    const isPink = line.getAttribute('stroke') === pinkColor;
-    line.setAttribute('stroke', isPink ? defaultColor : pinkColor);
-    line.setAttribute('stroke-width', isPink ? '12' : '16');
+  const interactiveLines = document.querySelectorAll('.line-interactive');
+  const centerHint = document.getElementById('canvas-center-hint');
+
+  function toggleLinePairColor(line) {
+    const pairType = line.getAttribute('data-pair');
+    const targetColor = (pairType === 'h') ? colorHorizontal : colorVertical;
+    const currentColor = line.getAttribute('stroke');
+
+    if (currentColor === targetColor) {
+      line.setAttribute('stroke', defaultLineColor);
+      line.setAttribute('stroke-width', '12');
+    } else {
+      line.setAttribute('stroke', targetColor);
+      line.setAttribute('stroke-width', '16');
+    }
+
+    // 檢查若至少一條線點亮，隱藏中央提示字
+    let anyActive = false;
+    interactiveLines.forEach(l => {
+      if (l.getAttribute('stroke') !== defaultLineColor) anyActive = true;
+    });
+    if (centerHint) {
+      centerHint.style.display = anyActive ? 'none' : 'block';
+    }
   }
 
-  lines.forEach(line => {
-    line.addEventListener('click', () => toggleLine(line));
-    line.addEventListener('touchend', (e) => { e.preventDefault(); toggleLine(line); });
+  interactiveLines.forEach(line => {
+    line.addEventListener('click', function (e) {
+      e.preventDefault();
+      toggleLinePairColor(this);
+    });
+    line.addEventListener('touchend', function (e) {
+      e.preventDefault();
+      toggleLinePairColor(this);
+    });
   });
 
-  // 課前上載預覽
   function handlePreviewUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -974,7 +1025,6 @@
     }
   }
 
-  // 老師控制台模式開關（廣播解鎖全班平板）
   let isClassroomUnlocked = false;
   function toggleTeacherControl() {
     isClassroomUnlocked = !isClassroomUnlocked;
@@ -996,7 +1046,6 @@
     }
   }
 
-  // 個人課中 AI 圖片上傳預覽
   function handleAiImageUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -1014,7 +1063,6 @@
     }
   }
 
-  // 執行個人專屬 AI 辨識與結構化解釋
   function runAiDetection() {
     const btn = document.getElementById('btn-run-ai');
     const explanationBox = document.getElementById('ai-explanation-box');
@@ -1040,7 +1088,6 @@
     }, 1200);
   }
 
-  // 尺規作圖 4 步模擬切換
   function setDrawingStep(stepNum) {
     for (let i = 1; i <= 4; i++) {
       document.getElementById(`step-btn-${i}`).classList.remove('active');
@@ -1080,7 +1127,6 @@
     }
   }
 
-  // 個人手稿成果拍照上傳
   function handleDrawingUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -1095,7 +1141,6 @@
     }
   }
 
-  // 星級評分切換
   function rateGroup(starElement) {
     const currentText = starElement.innerText;
     if (currentText === '⭐️⭐️⭐️') {
@@ -1107,7 +1152,6 @@
     }
   }
 
-  // 個人總結提交檢測
   function submitFinalLesson() {
     const isCorrect = document.getElementById('correct-ans').checked;
     if (isCorrect) {
