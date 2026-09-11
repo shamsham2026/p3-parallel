@@ -1528,7 +1528,7 @@
     {
       id: 'hk_multiline',
       category: 'judge',
-      question: '觀察下圖，直線 a 上立著三條線段 c、d 和 e，直線 b 斜穿過 d。圖中哪三條線段是一組互相平行的線？',
+      question: '觀察下圖，直線 a 上有三條線段 c、d 和 e，直線 b 斜穿過 d。圖中哪三條線段是一組互相平行的線？',
       svg: `
         <svg viewBox="0 0 280 140" width="100%" height="100%">
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
@@ -1546,7 +1546,7 @@
           
           <line x1="205" y1="81" x2="230" y2="30" stroke="#ff1493" stroke-width="3.5" stroke-linecap="round"/>
           <text x="235" y="32" font-size="12" font-weight="bold" fill="#d85d75">e</text>
-          <text x="140" y="135" text-anchor="middle" font-size="10" fill="#666">c、d、e 同時垂直於直線 a</text>
+          <text x="140" y="135" text-anchor="middle" font-size="10" fill="#666"></text>
         </svg>
       `,
       options: [
@@ -1566,22 +1566,22 @@
           <!-- 圖形 A: V字凹多邊形 -->
           <g transform="translate(10, 15)">
             <polygon points="5,10 25,70 35,70 15,20 45,70 55,70 75,10 60,10 45,45 30,10" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
-            <text x="40" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">A (V字形)</text>
+            <text x="40" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">A</text>
           </g>
           <!-- 圖形 B: 不規則五邊形 -->
           <g transform="translate(95, 15)">
             <polygon points="35,10 65,35 55,70 15,70 5,35" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
-            <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">B (五邊形)</text>
+            <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">B</text>
           </g>
           <!-- 圖形 C: 等腰梯形 -->
           <g transform="translate(175, 15)">
             <polygon points="20,15 50,15 65,70 5,70" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
-            <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">C (梯形:1組)</text>
+            <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">C</text>
           </g>
           <!-- 圖形 D: 兩側挖圓弧的對稱裝飾圖形 -->
           <g transform="translate(255, 15)">
             <path d="M 15 15 L 55 15 C 50 25, 50 45, 55 55 L 55 70 L 15 70 C 20 60, 20 40, 15 30 Z" fill="#fff0f5" stroke="#ff1493" stroke-width="2.5"/>
-            <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#d85d75">D (對稱圖形)</text>
+            <text x="35" y="86" text-anchor="middle" font-size="12" font-weight="bold" fill="#d85d75">D</text>
           </g>
         </svg>
       `,
