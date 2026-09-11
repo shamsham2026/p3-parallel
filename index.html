@@ -1360,9 +1360,9 @@
         </svg>
       `,
       options: [
-        { text: 'A. 字母 M（左邊和右邊的兩條直立豎線，無論延長多少都不會相交，距離處處相等）', correct: true },
-        { text: 'B. 字母 A（左右兩條斜線互相平行）', correct: false },
-        { text: 'C. 字母 S（折線線段互相平行）', correct: false },
+        { text: 'A. 字母 M', correct: true },
+        { text: 'B. 字母 A', correct: false },
+        { text: 'C. 字母 S', correct: false },
         { text: 'D. 三個字母都沒有平行線', correct: false }
       ],
       explanation: '💡 <br>• <strong>字母 M：</strong> 最左邊和最右邊的兩條直立筆畫都是筆直向上的豎線，方向一致，兩線之間的距離處處相等，無論延長多少都不會相交，所以是一組互相平行的線段！<br>• <strong>字母 A：</strong> 兩條側邊斜線在上方相交成尖角，相交線不是平行線。<br>• <strong>字母 S：</strong> 筆畫走向不斷轉向相交，沒有平行線。'
@@ -1381,7 +1381,7 @@
           <text x="150" y="95" font-size="11" font-weight="bold" fill="#166534" text-anchor="middle">長度較長 (20cm)</text>
           <!-- 距離標記 -->
           <line x1="140" y1="35" x2="140" y2="75" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
-          <text x="145" y="58" font-size="11" font-weight="bold" fill="#64748b">距離相等</text>
+          <text x="145" y="58" font-size="11" font-weight="bold" fill="#64748b"></text>
         </svg>
       `,
       options: [
@@ -1399,20 +1399,20 @@
           <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
           <!-- 平行的一組斜虛線 (線 1 與 線 2) -->
           <line x1="20" y1="100" x2="260" y2="20" stroke="#d97706" stroke-width="3" stroke-dasharray="6,4"/>
-          <text x="268" y="22" font-size="12" font-weight="bold" fill="#d97706">虛線 1</text>
+          <text x="268" y="22" font-size="12" font-weight="bold" fill="#d97706"> C</text>
           <line x1="50" y1="125" x2="290" y2="45" stroke="#d97706" stroke-width="3" stroke-dasharray="6,4"/>
-          <text x="250" y="60" font-size="12" font-weight="bold" fill="#d97706">虛線 2</text>
+          <text x="250" y="60" font-size="12" font-weight="bold" fill="#d97706">D</text>
           <!-- 相交交叉的干擾虛線 -->
           <line x1="120" y1="10" x2="80" y2="125" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"/>
-          <text x="70" y="125" font-size="11" fill="#64748b">干擾線 A</text>
+          <text x="70" y="125" font-size="11" fill="#64748b">A</text>
           <line x1="200" y1="10" x2="230" y2="125" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"/>
-          <text x="235" y="125" font-size="11" fill="#64748b">干擾線 B</text>
+          <text x="235" y="125" font-size="11" fill="#64748b">B</text>
         </svg>
       `,
       options: [
-        { text: 'A. 虛線 1 和 虛線 2 是一組平行線（兩條斜線傾斜方向相同，無論延長多少都不會相交，距離處處相等）', correct: true },
-        { text: 'B. 虛線 1 和 干擾線 A 互相平行', correct: false },
-        { text: 'C. 干擾線 A 和 干擾線 B 互相平行', correct: false }
+        { text: 'A. C 和 D 是一組平行線', correct: true },
+        { text: 'B. C 和  A 互相平行', correct: false },
+        { text: 'C.  A 和  B 互相平行', correct: false }
       ],
       explanation: '💡<br>觀察多條交錯虛線時，要尋找「走向完全一致、傾斜度相同」的一對線。<br>• <strong>虛線 1 與 虛線 2：</strong> 沿著相同的傾斜方向筆直延伸，兩線之間的垂直距離處處相等，無論延長多少都不會相交，是一組互相平行的線！<br>• 其餘線條延長後均會與它們交叉相交。'
     },
@@ -1430,13 +1430,13 @@
             <line x1="17" y1="42" x2="33" y2="42" stroke="#333" stroke-width="3" stroke-linecap="round"/>
             <text x="25" y="80" font-size="14" font-weight="bold" text-anchor="middle" fill="#555">A</text>
           </g>
-          <!-- 字母 E (正確答案：3條水平平行線) -->
+          <!-- 字母 E(正確答案：3條水平平行線) -->
           <g transform="translate(75, 20)">
             <line x1="15" y1="10" x2="15" y2="60" stroke="#333" stroke-width="4" stroke-linecap="round"/>
             <line x1="15" y1="10" x2="42" y2="10" stroke="#ff1493" stroke-width="4" stroke-linecap="round"/>
             <line x1="15" y1="35" x2="38" y2="35" stroke="#ff1493" stroke-width="4" stroke-linecap="round"/>
             <line x1="15" y1="60" x2="42" y2="60" stroke="#ff1493" stroke-width="4" stroke-linecap="round"/>
-            <text x="28" y="80" font-size="14" font-weight="bold" text-anchor="middle" fill="#d85d75">E (3橫線)</text>
+            <text x="28" y="80" font-size="14" font-weight="bold" text-anchor="middle" fill="#d85d75">E</text>
           </g>
           <!-- 字母 C -->
           <g transform="translate(145, 20)">
@@ -1457,10 +1457,10 @@
         </svg>
       `,
       options: [
-        { text: 'A. 字母 E（上、中、下三條水平橫線朝同方向延伸，無論延長多少都不會相交，距離處處相等）', correct: true },
-        { text: 'B. 字母 A（左右兩條斜線互相平行）', correct: false },
-        { text: 'C. 字母 L（一條豎線和一條橫線互相平行）', correct: false },
-        { text: 'D. 字母 W（左右兩邊斜線互相平行）', correct: false }
+        { text: 'A. 字母 E', correct: true },
+        { text: 'B. 字母 A', correct: false },
+        { text: 'C. 字母 L', correct: false },
+        { text: 'D. 字母 W', correct: false }
       ],
       explanation: '💡 <br>• <strong>字母 E：</strong> 上、中、下三條水平橫線無論延長多少都不會相交，彼此互相平行！<br>• <strong>字母 A & W：</strong> 線條傾斜相交成尖角，不是平行線。<br>• <strong>字母 L：</strong> 兩條線相交成直角，是互相垂直，不是平行！'
     },
@@ -1498,7 +1498,7 @@
         </svg>
       `,
       options: [
-        { text: 'A. 把 點 O 和 點 N 連起來（點 O 到 點 N 向右走 6 格、向上走 2 格，傾斜走勢與原黑線一致，無論延長多少都不會相交）', correct: true },
+        { text: 'A. 把 點 O 和 點 N 連起來', correct: true },
         { text: 'B. 把 點 M 和 點 N 連起來', correct: false },
         { text: 'C. 把 點 P 和 點 Q 連起來', correct: false },
         { text: 'D. 把 點 M 和 點 P 連起來', correct: false }
